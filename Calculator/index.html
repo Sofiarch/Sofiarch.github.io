@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="master.css">
+  <title>First</title>
+  
+</head>
+<body>
+
+  <div class="calculator">
+  
+    
+    <input id="display" type="text" readonly>
+
+    <div class="buttons">
+      <button class="function" onclick="addToDisplay('Math.sin(')">sin</button>
+      <button class="function" onclick="addToDisplay('Math.cos(')">cos</button>
+      <button class="function" onclick="addToDisplay('Math.tan(')">tan</button>
+      <button class="function" onclick="addToDisplay('Math.log(')">log</button>
+      <button class="operator" data-type="operator" data-value="^" id="^" onclick="addToDisplay('**')">^</button>
+      <button class="operator" data-type="operator" data-value="√" id="√" onclick="addToDisplay('Math.sqrt(')">√</button>
+      <button class="operator" data-type="operator" data-value="+" id="+" onclick="addToDisplay('+')">+</button>
+      <button class="operator" data-type="operator" data-value="-" id="-" onclick="addToDisplay('-')">−</button>
+
+     
+      <button data-type="number" data-value="7" onclick="addToDisplay('7')">7</button>
+      <button data-type="number" data-value="8" onclick="addToDisplay('8')">8</button>
+      <button data-type="number" data-value="9" onclick="addToDisplay('9')">9</button>
+      <button class="operator" data-type="operator" data-value="*" onclick="addToDisplay('*')">×</button>
+
+      <button data-type="number" data-value="4" onclick="addToDisplay('4')">4</button>
+      <button data-type="number" data-value="5" onclick="addToDisplay('5')">5</button>
+      <button data-type="number" data-value="6" onclick="addToDisplay('6')">6</button>
+      <button class="operator" data-type="operator" data-value="/" onclick="addToDisplay('/')">÷</button>
+
+      <button data-type="number" data-value="1"  onclick="addToDisplay('1')">1</button>
+      <button data-type="number" data-value="2"  onclick="addToDisplay('2')">2</button>
+      <button data-type="number" data-value="3" onclick="addToDisplay('3')">3</button>
+      <button class="special" data-type="special" data-value="=" onclick="calculate()">=</button>
+
+      <button data-type="number" data-value="0" onclick="addToDisplay('0')">0</button>
+      <button data-type="number" data-value="." onclick="addToDisplay('.')">.</button>
+      <button class="special" data-type="special" data-value="C" onclick="clearDisplay()">C</button>
+      <button class="special" data-type="special" data-value="DEL" onclick="deleteLastPos()">DEL</button>
+
+      <button class="special" data-type="special" data-value="(" onclick="addToDisplay('(')">(</button>
+      <button class="special" data-type="special" data-value=")" onclick="addToDisplay(')')">)</button>
+      <button class="special" data-type="special" data-value="pi" onclick="addToDisplay('Math.PI')">π</button>
+      <button class="special" data-type="special" data-value="e" onclick="addToDisplay('Math.E')">e</button>
+    </div>
+
+  </div>
+<script src="index.js"></script>
+</body>
+</html>
