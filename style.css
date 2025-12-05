@@ -231,66 +231,69 @@ body {
 /* ------------------ */
 
 .card {
-            width: 410px;
-            max-width: 90vw;
-        }
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
 
-        .card {
-            position: relative;
-            height: 170px;
-            overflow: hidden;
-            border-radius: 22px;
-            margin-bottom: 25px;
-            cursor: pointer;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            border: 1.5px solid rgba(0, 0, 0, 0.35);
-        }
+.card {
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+    border-radius: 22px;
+    margin-bottom: 25px;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border: 1.5px solid rgba(0, 0, 0, 0.35);
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .card:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 25px rgba(174, 162, 94, 0.3);
-        }
+.card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 25px rgba(174, 162, 94, 0.3);
+}
 
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: url("https://cdn.discordapp.com/attachments/1430621889801486470/1446187031372894452/image.png?ex=6933bae1&is=69326961&hm=cd5d97e88eaf9c831995bd1f273c0ef57805f63cd6c847834092004b106c27c4");
-            background-size: cover;
-            background-repeat: no-repeat;
-            transition: transform 0.4s ease;
-            z-index: 1;
-        }
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://cdn.discordapp.com/attachments/1430621889801486470/1446187031372894452/image.png?ex=6933bae1&is=69326961&hm=cd5d97e88eaf9c831995bd1f273c0ef57805f63cd6c847834092004b106c27c4");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.4s ease;
+    z-index: 1;
+}
 
-        .card:hover::before {
-            transform: scale(1.15);
-        }
+.card:hover::before {
+    transform: scale(1.15);
+}
 
-        .beverages::before {
-            background-position: center top;
-        }
+.beverages::before {
+    background-position: center top;
+}
 
-        .desserts::before {
-            background-position: center bottom;
-        }
+.desserts::before {
+    background-position: center bottom;
+}
 
-        .card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65));
-            z-index: 2;
-        }
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65));
+    z-index: 2;
+}
 
-        .card h2 {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: #ffe9a3;
-            z-index: 3;
-            font-size: 1.4rem;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px black;
-        }
+.card h2 {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    color: #ffe9a3;
+    z-index: 3;
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px black;
+}
