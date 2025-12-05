@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Restobar Skeleton</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="mobile-wrapper">
+
+        <header class="top-header">
+            <div class="logo">
+                <h1>Family</h1>
+                <span>Restobar</span>
+                <div class="header-info">
+                    <p class="address"><i class="fa-solid fa-location-dot"></i> Baghdad, main street</p>
+                    <p class="phone"><a href="tel:+964 7727701185"><i class="fa-solid fa-phone"></i>07727701185</a></p>
+                </div>
+            </div>
+
+
+            <div class="language-changer" aria-label="language selector">
+                <button>English<i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+        </header>
+
+
+        <main class="content-grid">
+            <div class="marquee" aria-hidden="false">
+                <div class="marquee__inner">
+                    <div class="marquee__group">
+                        <span>FOODS</span>
+                        <span>SUSHI AND ROLLS</span>
+                        <span>STEAKS AND KEBABS</span>
+                        <span>DESSERTS AND BEVERAGES</span>
+                    </div>
+                    <div class="marquee__group">
+                        <span>FOODS</span>
+                        <span>SUSHI AND ROLLS</span>
+                        <span>STEAKS AND KEBABS</span>
+                        <span>DESSERTS AND BEVERAGES</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="search">
+                <input placeholder="Search" type="text">
+                <button type="submit">GO</button>
+            </div>
+
+            <div class="cards">
+                <div class="card beverages">
+                    <h2>BEVRAGES</h2>
+                </div>
+
+                <div class="card desserts">
+                    <h2>DESSERTS AND FRUITS</h2>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        (function () {
+            const marquee = document.querySelector('.marquee');
+            if (!marquee) return;
+            const track = marquee.querySelector('.marquee__inner');
+            let isDown = false;
+            let startX, startScroll;
+
+            marquee.addEventListener('pointerdown', (e) => {
+                isDown = true;
+                marquee.setPointerCapture(e.pointerId);
+                startX = e.clientX;
+                startScroll = marquee.scrollLeft;
+                if (track) track.style.animationPlayState = 'paused';
+            });
+
+            marquee.addEventListener('pointermove', (e) => {
+                if (!isDown) return;
+                const dx = e.clientX - startX;
+                marquee.scrollLeft = startScroll - dx;
+            });
+
+            function endDrag(e) {
+                if (!isDown) return;
+                isDown = false;
+                try { marquee.releasePointerCapture(e.pointerId); } catch (e) { }
+                if (track) track.style.animationPlayState = 'running';
+            }
+
+            marquee.addEventListener('pointerup', endDrag);
+            marquee.addEventListener('pointercancel', endDrag);
+            marquee.addEventListener('pointerleave', endDrag);
+        })();
+    </script>
+
+</body>
+
+</html>

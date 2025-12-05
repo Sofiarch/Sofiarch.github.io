@@ -1,0 +1,296 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.mobile-wrapper {
+    width: 100%;
+    max-width: 480px;
+    background-color: #151515;
+    padding: 20px;
+    position: relative;
+    border-right: 1px solid #333;
+    border-left: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 18px 0 22px;
+    position: relative;
+    gap: 8px;
+}
+
+.language-changer{
+    position: absolute;
+    right: 16px;
+    top: 14px;
+    margin-left: 0;
+}
+
+.language-changer button{
+    background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.language-changer button:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+
+.logo {
+    text-align: center;
+    line-height: 1;
+    max-width: 70%;
+}
+
+.logo h1 {
+    font-family: 'Times New Roman', serif;
+    font-weight: 300;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #EAC8CA;
+}
+
+.header-info {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #cfc7c7;
+    opacity: 0.95;
+}
+
+.header-info p {
+    margin: 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #d6d0d0;
+}
+
+.header-info .address i,
+.header-info .phone i {
+    color: #EAC8CA;
+    font-size: 0.95rem;
+}
+
+.header-info .phone a {
+    color: #fff;
+    text-decoration: none;
+    background: rgba(234,200,202,0.06);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background .12s ease;
+}
+.header-info .phone a:hover { background: rgba(234,200,202,0.12); }
+
+.content-grid {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 2px dashed #333;
+    border-radius: 10px;
+    justify-content: flex-start;
+    align-items: stretch;
+    color: #e0dada;
+    min-height: 300px;
+    background-color: #252424;
+    padding: 14px;
+}
+
+/* marquee styling tuned to be a compact top bar */
+.marquee {
+    width: 100%;
+    max-height: 64px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 8px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgb(0,0,0) 8%, rgb(0,0,0) 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, rgb(0,0,0) 8%, rgb(0,0,0) 92%, transparent 100%);
+}
+
+.marquee__inner {
+    display: flex;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+    align-items: center;
+    will-change: transform;
+}
+
+.marquee__group {
+    display: flex;
+    flex: none;
+}
+
+.marquee__group span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 6px;
+    white-space: nowrap;
+    background: #1C1C1C;
+    color: #F5DEE0;
+    padding: 6px 12px;
+    border-radius: 40px;
+    border: 2px solid #F5DEE0;
+    font-size: 0.95rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.marquee__group span:hover {
+    background: #F5DEE0;
+    border-color: #1C1C1C;
+    color: #1C1C1C;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* search sits below the marquee and stretches to available width */
+.search {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.search input[type="text"] {
+    font-family: monospace;
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 28px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    background-color: #272727db;
+    color: #F5DEE0;
+    font-size: 0.95rem;
+}
+
+.search button[type="submit"] {
+    background-color: #1c1c1c;
+    border: none;
+    color: #F5DEE0;
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 28px;
+    box-shadow: 0 0 10px rgba(223, 217, 217, 0.25);
+    transition: .12s ease;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    flex: 0 0 auto;
+    width: 72px;
+}
+
+.search button[type="submit"]:hover {
+    transform: scale(1.03);
+    color: #1c1c1c;
+    background-color: #F5DEE0;
+    transition: .12s ease;
+}
+
+
+/* ------------------ */
+
+.card {
+            width: 410px;
+            max-width: 90vw;
+        }
+
+        .card {
+            position: relative;
+            height: 170px;
+            overflow: hidden;
+            border-radius: 22px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1.5px solid rgba(0, 0, 0, 0.35);
+        }
+
+        .card:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 25px rgba(174, 162, 94, 0.3);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://cdn.discordapp.com/attachments/1430621889801486470/1446187031372894452/image.png?ex=6933bae1&is=69326961&hm=cd5d97e88eaf9c831995bd1f273c0ef57805f63cd6c847834092004b106c27c4");
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: transform 0.4s ease;
+            z-index: 1;
+        }
+
+        .card:hover::before {
+            transform: scale(1.15);
+        }
+
+        .beverages::before {
+            background-position: center top;
+        }
+
+        .desserts::before {
+            background-position: center bottom;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65));
+            z-index: 2;
+        }
+
+        .card h2 {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #ffe9a3;
+            z-index: 3;
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px black;
+        }
