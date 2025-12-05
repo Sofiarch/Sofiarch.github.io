@@ -123,7 +123,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border: 2px dashed #333;
+    
     border-radius: 10px;
     justify-content: flex-start;
     align-items: stretch;
@@ -258,7 +258,6 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("https://cdn.discordapp.com/attachments/1430621889801486470/1446187031372894452/image.png?ex=6933bae1&is=69326961&hm=cd5d97e88eaf9c831995bd1f273c0ef57805f63cd6c847834092004b106c27c4");
     background-size: cover;
     background-repeat: no-repeat;
     transition: transform 0.4s ease;
@@ -269,11 +268,23 @@ body {
     transform: scale(1.15);
 }
 
-.beverages::before {
+.burgers::before {
     background-position: center top;
+    background-image: url("pics/burgers.png");
+}
+
+.pizza::before {
+    background-position: center top;
+    background-image: url("pics/pizza.png");
+}
+
+.shawrma::before {
+    background-position: center top;
+    background-image: url("pics/shawrma.png");
 }
 
 .desserts::before {
+    background-image: url("pics/desserts.png");
     background-position: center bottom;
 }
 
@@ -290,10 +301,12 @@ body {
     bottom: 20px;
     width: 100%;
     text-align: center;
-    color: #ffe9a3;
+    color: #ffffff;
     z-index: 3;
     font-size: 1.4rem;
     font-weight: bold;
     letter-spacing: 3px;
     text-shadow: 0 0 10px black;
+    
 }
+
