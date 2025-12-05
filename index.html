@@ -67,40 +67,6 @@
 
     </div>
 
-    <script>
-        (function () {
-            const marquee = document.querySelector('.marquee');
-            if (!marquee) return;
-            const track = marquee.querySelector('.marquee__inner');
-            let isDown = false;
-            let startX, startScroll;
-
-            marquee.addEventListener('pointerdown', (e) => {
-                isDown = true;
-                marquee.setPointerCapture(e.pointerId);
-                startX = e.clientX;
-                startScroll = marquee.scrollLeft;
-                if (track) track.style.animationPlayState = 'paused';
-            });
-
-            marquee.addEventListener('pointermove', (e) => {
-                if (!isDown) return;
-                const dx = e.clientX - startX;
-                marquee.scrollLeft = startScroll - dx;
-            });
-
-            function endDrag(e) {
-                if (!isDown) return;
-                isDown = false;
-                try { marquee.releasePointerCapture(e.pointerId); } catch (e) { }
-                if (track) track.style.animationPlayState = 'running';
-            }
-
-            marquee.addEventListener('pointerup', endDrag);
-            marquee.addEventListener('pointercancel', endDrag);
-            marquee.addEventListener('pointerleave', endDrag);
-        })();
-    </script>
 
 </body>
 
