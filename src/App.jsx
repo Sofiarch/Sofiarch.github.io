@@ -81,8 +81,7 @@ function App() {
         }}
       />
       
-      <main className="content-grid" style={{position: 'relative', paddingBottom: '80px'}}>
-        
+<main className="content-grid">        
         {isCheckout ? (
             <Checkout 
                 cart={cart}

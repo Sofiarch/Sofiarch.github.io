@@ -3,30 +3,34 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* ensure full-height layout and prevent page-level scrollbars */
+/* --- FIX: Use dlvmax/dvh to handle mobile address bars correctly --- */
 html, body {
-    height: 100%;
-    overflow: hidden; /* remove browser scrollbars that shift layout */
-    overflow-x: hidden; /* ensure no horizontal viewport overflow */
-}
-
-/* Ensure React root and wrapper fill the viewport and nothing overflows it */
-#root {
-    height: 100%;
-    overflow: hidden;
+    width: 100%;
+    height: 100%; 
+    height: 100dvh; /* The modern fix for mobile browsers */
+    overflow: hidden; /* Prevent page scroll, only internal scroll allowed */
+    margin: 0;
 }
 
 body {
-    background-color: #000;
+    background-color: #000; /* Desktop background */
     color: #fff;
     display: flex;
     justify-content: center;
-    min-height: 100vh;
-    overflow: hidden;
+    align-items: center;
 }
 
+#root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- FIX: Wrapper now respects the exact screen height --- */
 .mobile-wrapper {
     width: 100%;
     max-width: 480px;
@@ -37,9 +41,13 @@ body {
     border-left: 1px solid #333;
     display: flex;
     flex-direction: column;
-    height: 100%;         /* use container height so no extra viewport overflow */
-    overflow: hidden;     /* prevent wrapper producing scrollbars */
+    height: 100%;
+    max-height: 100dvh; /* Ensures it never goes below the address bar */
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Nice shadow for desktop view */
 }
+
+/* --- REST OF YOUR ORIGINAL STYLES BELOW (UNTOUCHED) --- */
 
 .top-header {
     display: flex;
@@ -49,6 +57,7 @@ body {
     padding: 18px 0 22px;
     position: relative;
     gap: 8px;
+    flex-shrink: 0; /* Prevents header from squishing */
 }
 
 .language-changer{
@@ -134,37 +143,37 @@ body {
 }
 .header-info .phone a:hover { background: rgba(234,200,202,0.12); }
 
+/* --- CONTENT GRID FIX --- */
 .content-grid {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    
     border-radius: 10px;
     justify-content: flex-start;
     align-items: stretch;
     color: #e0dada;
-    min-height: 300px;
+    /* Removed min-height so it fits flex container */
     background-color: #252424;
     padding: 14px;
-    overflow-y: auto;                  /* enable inner vertical scroll */
-    overflow-x: hidden;                /* forbid horizontal scroll */
-    -webkit-overflow-scrolling: touch;  /* smooth mobile scrolling */
+    padding-bottom: 100px; /* Added extra space for floating button */
+    
+    overflow-y: auto;                  
+    overflow-x: hidden;                
+    -webkit-overflow-scrolling: touch;  
 
-    /* hide scrollbar while preserving scroll behavior */
-    -ms-overflow-style: none; /* IE/Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
 }
 .content-grid::-webkit-scrollbar {
-    display: none; /* Chrome/Safari/WebKit */
+    display: none; 
 }
-
 
 .marquee-nav {
     width: 100%;
     margin-bottom: 12px;
     padding: 10px 0;
-    
+    flex-shrink: 0;
 }
 
 .marquee-scroll-container {
@@ -173,11 +182,8 @@ body {
     overflow-x: auto; 
     white-space: nowrap;
     padding: 0 4px; 
-    
-    
     -webkit-overflow-scrolling: touch; 
 }
-
 
 .marquee-scroll-container::-webkit-scrollbar {
     display: none; 
@@ -202,7 +208,6 @@ body {
     -webkit-user-select: none;
 }
 
-
 .marquee-btn.active {
     background: #F5DEE0;
     color: #1C1C1C;
@@ -210,13 +215,13 @@ body {
     box-shadow: 0 0 10px rgba(245, 222, 224, 0.4);
 }
 
-
 .search {
     display: flex;
     gap: 10px;
     align-items: center;
     width: 100%;
     margin-top: 6px;
+    flex-shrink: 0;
 }
 
 .search input[type="text"] {
@@ -253,16 +258,13 @@ body {
     transition: .12s ease;
 }
 
-
-
-
 .card {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     position: relative;
     height: 170px;
-    overflow: hidden; /* Keeps the zooming image inside the rounded corners */
+    overflow: hidden; 
     border-radius: 22px;
     margin-bottom: 25px;
     cursor: pointer;
@@ -270,6 +272,7 @@ body {
     border: 1.5px solid rgba(0, 0, 0, 0.35);
     margin-left: auto;
     margin-right: auto;
+    flex-shrink: 0;
 }
 
 .card:hover {
@@ -277,21 +280,18 @@ body {
     box-shadow: 0 0 25px rgba(174, 162, 94, 0.3);
 }
 
-
 .card-background {
     position: absolute;
-    inset: 0; /* Stretches to fill the card */
+    inset: 0; 
     background-size: cover;
     background-position: center;
     transition: transform 0.4s ease;
     z-index: 1;
 }
 
-
 .card:hover .card-background {
     transform: scale(1.15);
 }
-
 
 .card::after {
     content: "";
@@ -299,7 +299,7 @@ body {
     inset: 0;
     background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65));
     z-index: 2;
-    pointer-events: none; /* Lets clicks pass through to the card */
+    pointer-events: none; 
 }
 
 .card h2 {
@@ -314,7 +314,6 @@ body {
     letter-spacing: 3px;
     text-shadow: 0 0 10px black;
 }
-
 
 .back-btn {
     background: none;
@@ -335,7 +334,6 @@ body {
     border-bottom: 1px solid #333;
     padding-bottom: 10px;
 }
-
 
 .floating-order-bar {
     position: absolute;
@@ -361,7 +359,7 @@ body {
     cursor: pointer;
 }
 
-
+/* Light Mode Overrides */
 .light-mode {
     background-color: #f4f4f4;
     color: #1a1a1a;
@@ -377,7 +375,6 @@ body {
     color: #1a1a1a;
 }
 
-
 .light-mode h1, 
 .light-mode h3, 
 .light-mode .logo h1, 
@@ -390,7 +387,6 @@ body {
 .light-mode .item-details .description {
     color: #555;
 }
-
 
 .light-mode .search input[type="text"] {
     background-color: #fff;
@@ -416,7 +412,7 @@ body {
 }
 
 .light-mode .menu-item-card {
-    border-bottom: 1px solid #eee; /* Optional separator */
+    border-bottom: 1px solid #eee; 
 }
 
 .light-mode .checkout-container {
@@ -464,4 +460,3 @@ body {
 .arabic h3 {
     font-weight: 600;
 }
-
