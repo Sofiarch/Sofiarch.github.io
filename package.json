@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Sofiarch.github.io/",
+  "homepage": "https://sofiarch.github.io/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",      
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b main -d dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
