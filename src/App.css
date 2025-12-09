@@ -5,13 +5,26 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ensure full-height layout and prevent page-level scrollbars */
+html, body {
+    height: 100%;
+    overflow: hidden; /* remove browser scrollbars that shift layout */
+    overflow-x: hidden; /* ensure no horizontal viewport overflow */
+}
+
+/* Ensure React root and wrapper fill the viewport and nothing overflows it */
+#root {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     background-color: #000;
     color: #fff;
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 .mobile-wrapper {
@@ -24,6 +37,8 @@ body {
     border-left: 1px solid #333;
     display: flex;
     flex-direction: column;
+    height: 100%;         /* use container height so no extra viewport overflow */
+    overflow: hidden;     /* prevent wrapper producing scrollbars */
 }
 
 .top-header {
@@ -132,8 +147,17 @@ body {
     min-height: 300px;
     background-color: #252424;
     padding: 14px;
-}
+    overflow-y: auto;                  /* enable inner vertical scroll */
+    overflow-x: hidden;                /* forbid horizontal scroll */
+    -webkit-overflow-scrolling: touch;  /* smooth mobile scrolling */
 
+    /* hide scrollbar while preserving scroll behavior */
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.content-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/WebKit */
+}
 
 
 .marquee-nav {
@@ -314,13 +338,14 @@ body {
 
 
 .floating-order-bar {
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 440px;
     z-index: 100;
+    pointer-events: auto;
 }
 
 .floating-order-bar button {
