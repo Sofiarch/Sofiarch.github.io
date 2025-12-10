@@ -183,6 +183,8 @@ body {
     white-space: nowrap;
     padding: 0 4px; 
     -webkit-overflow-scrolling: touch; 
+    touch-action: pan-x;
+    overflow-y: hidden;
 }
 
 .marquee-scroll-container::-webkit-scrollbar {
