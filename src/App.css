@@ -30,7 +30,6 @@ body {
     justify-content: center;
 }
 
-/* --- FIX: Wrapper now respects the exact screen height --- */
 .mobile-wrapper {
     width: 100%;
     max-width: 480px;
@@ -42,12 +41,11 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-height: 100dvh; /* Ensures it never goes below the address bar */
+    max-height: 100dvh; 
     overflow: hidden;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Nice shadow for desktop view */
+    box-shadow: 0 0 50px rgba(0,0,0,0.5); 
 }
 
-/* --- REST OF YOUR ORIGINAL STYLES BELOW (UNTOUCHED) --- */
 
 .top-header {
     display: flex;
@@ -143,7 +141,7 @@ body {
 }
 .header-info .phone a:hover { background: rgba(234,200,202,0.12); }
 
-/* --- CONTENT GRID FIX --- */
+
 .content-grid {
     flex-grow: 1;
     display: flex;
@@ -153,10 +151,10 @@ body {
     justify-content: flex-start;
     align-items: stretch;
     color: #e0dada;
-    /* Removed min-height so it fits flex container */
+    /
     background-color: #252424;
     padding: 14px;
-    padding-bottom: 100px; /* Added extra space for floating button */
+    padding-bottom: 100px; 
     
     overflow-y: auto;                  
     overflow-x: hidden;                
@@ -361,7 +359,6 @@ body {
     cursor: pointer;
 }
 
-/* Light Mode Overrides */
 .light-mode {
     background-color: #f4f4f4;
     color: #1a1a1a;
@@ -451,17 +448,13 @@ body {
     color: #d4a5a8;
 }
 
-/* src/App.css (Bottom of file) */
 
 .arabic,
 [dir="rtl"] {
     font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-/* Apply the font to all elements inside .arabic, 
-   BUT exclude Font Awesome elements (.fa-solid, .fa-regular, etc.) 
-   so the icons don't break.
-*/
+
 .arabic *:not(.fa-solid):not(.fa-regular):not(.fa-brands):not(.fa) {
     font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
@@ -613,7 +606,6 @@ body {
   transition: var(--transition);
 }
 
-/* Actions */
 .theme-switch__checkbox:checked + .theme-switch__container {
   background-color: var(--container-night-bg);
 }

@@ -9,10 +9,10 @@
     flex-direction: column;
     gap: 16px;
     animation: fadeIn 0.3s ease;
-    /* FIX: Removed overflow: hidden so the page can scroll naturally */
+    
 }
 
-/* Header, Summary, Form */
+
 .checkout-header,
 .order-summary,
 .checkout-form {
@@ -20,7 +20,6 @@
     box-sizing: border-box;
 }
 
-/* Header */
 .checkout-header {
     display: flex;
     align-items: center;
@@ -41,7 +40,6 @@
     gap: 8px;
 }
 
-/* Summary Section */
 .order-summary {
     background-color: #1e1e1e;
     padding: 14px;
@@ -55,7 +53,6 @@
     color: #EAC8CA;
 }
 
-/* Updated Summary Row to support controls */
 .summary-row {
     display: flex;
     flex-direction: column;
@@ -92,7 +89,6 @@
     font-size: 0.85rem;
 }
 
-/* Controls */
 .row-controls {
     display: flex;
     justify-content: space-between;
@@ -147,7 +143,6 @@
     color: #EAC8CA;
 }
 
-/* Form Styles */
 .checkout-form {
     display: flex;
     flex-direction: column;
@@ -204,7 +199,6 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Light mode adjustments */
 .mobile-wrapper.light-mode .order-summary h3,
 .mobile-wrapper.light-mode .checkout-form h3,
 .mobile-wrapper.light-mode .total-price,

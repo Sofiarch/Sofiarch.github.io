@@ -64,7 +64,6 @@ function App() {
 
   const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
 
-  // 1. Filter Categories
   const visibleCategories = categoriesData.filter((cat) => {
     const titleToCheck = isEnglish ? cat.title : (cat.title_ar || cat.title);
     if (searchTerm) {
@@ -73,11 +72,10 @@ function App() {
     return cat.section === activeSection;
   });
 
-  // 2. Filter Menu Items (New Logic)
+  
   const getVisibleMenuItems = () => {
     if (!searchTerm) return [];
     
-    // Flatten all categories into one big list of items
     const allItems = Object.values(menuItems).flat();
 
     return allItems.filter(item => {
