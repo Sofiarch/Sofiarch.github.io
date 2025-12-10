@@ -19,7 +19,6 @@ function App() {
   const [cart, setCart] = useState({});
   const [isCheckout, setIsCheckout] = useState(false);
 
-
   const t = {
     back: isEnglish ? "Back" : "رجوع",
     noResults: isEnglish ? "No results found" : "لا توجد نتائج",
@@ -43,6 +42,15 @@ function App() {
         return newCart;
       }
       return { ...prev, [item.id]: currentQty - 1 };
+    });
+  };
+
+  // New function to completely remove an item
+  const deleteFromCart = (itemId) => {
+    setCart(prev => {
+        const newCart = { ...prev };
+        delete newCart[itemId];
+        return newCart;
     });
   };
 
@@ -81,16 +89,21 @@ function App() {
         }}
       />
       
-<main className="content-grid">        
+      <main className="content-grid">        
         {isCheckout ? (
             <Checkout 
                 cart={cart}
                 onBack={() => setIsCheckout(false)}
                 onPlaceOrder={handlePlaceOrder}
+                // Pass the new controls down
+                onAdd={addToCart}
+                onRemove={removeFromCart}
+                onDelete={deleteFromCart}
                 isEnglish={isEnglish} 
             />
         ) : (
             <>
+                {/* ... (Existing Marquee and Search logic remains unchanged) ... */}
                 <Marquee 
                     activeSection={activeSection} 
                     onSectionChange={(section) => {
@@ -104,7 +117,6 @@ function App() {
                 {!selectedCategory ? (
                   <>
                     <SearchBar onSearch={setSearchTerm} isEnglish={isEnglish} />
-                    
                     <div className="cards">
                       {visibleCategories.length > 0 ? (
                         visibleCategories.map((cat) => (
@@ -158,7 +170,6 @@ function App() {
                 )}
             </>
         )}
-
       </main>
 
       {totalItems > 0 && !isCheckout && (

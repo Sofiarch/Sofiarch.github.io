@@ -449,9 +449,18 @@ body {
     color: #d4a5a8;
 }
 
+/* src/App.css (Bottom of file) */
+
 .arabic,
-[dir="rtl"],
-.arabic * {
+[dir="rtl"] {
+    font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* Apply the font to all elements inside .arabic, 
+   BUT exclude Font Awesome elements (.fa-solid, .fa-regular, etc.) 
+   so the icons don't break.
+*/
+.arabic *:not(.fa-solid):not(.fa-regular):not(.fa-brands):not(.fa) {
     font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Checkout.css';
 import { menuItems } from '../data/menuItems';
 
-const Checkout = ({ cart, onBack, onPlaceOrder, isEnglish }) => {
+const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEnglish }) => {
   // Translations
   const t = {
     back: isEnglish ? "Back" : "رجوع",
@@ -54,16 +54,32 @@ const Checkout = ({ cart, onBack, onPlaceOrder, isEnglish }) => {
           {cartEntries.map(([id, qty]) => {
             const item = findItem(id);
             if (!item) return null;
-            // Select Language Title
             const title = isEnglish ? item.title : (item.title_ar || item.title);
             
             return (
               <div key={id} className="summary-row">
-                <div className="item-info">
-                  <span className="qty">{qty}x</span>
-                  <span className="name">{title}</span>
+                <div className="row-main">
+                    <div className="item-name-group">
+                        <span className="qty-badge">{qty}x</span>
+                        <span className="name">{title}</span>
+                    </div>
+                    <span className="item-price">{(item.price * qty).toFixed(3)}</span>
                 </div>
-                <span className="item-price">{(item.price * qty).toFixed(3)}</span>
+                
+                {/* Controls for Add/Remove/Delete */}
+                <div className="row-controls">
+                    <button className="ctrl-btn delete" onClick={() => onDelete(item.id)}>
+                        <i className="fa-solid fa-trash"></i>
+                    </button>
+                    <div className="qty-controls">
+                        <button className="ctrl-btn" onClick={() => onRemove(item)}>
+                            <i className="fa-solid fa-minus"></i>
+                        </button>
+                        <button className="ctrl-btn" onClick={() => onAdd(item)}>
+                            <i className="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
               </div>
             );
           })}
@@ -73,7 +89,7 @@ const Checkout = ({ cart, onBack, onPlaceOrder, isEnglish }) => {
         
         <div className="total-row">
           <span>{t.totalAmount}</span>
-          <span className="total-price">{totalAmount.toFixed(3)} JOD</span>
+          <span className="total-price">{totalAmount.toFixed(3)} IQD</span>
         </div>
       </div>
 

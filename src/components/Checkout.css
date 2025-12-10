@@ -3,21 +3,20 @@
     max-width: 100%;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;                /* rely on parent .content-grid padding */
+    padding: 0;
     color: #fff;
     display: flex;
     flex-direction: column;
     gap: 16px;
     animation: fadeIn 0.3s ease;
-    overflow: hidden;         /* avoid creating its own scrollbars/overflow */
+    /* FIX: Removed overflow: hidden so the page can scroll naturally */
 }
 
-/* Keep header, summary and form constrained to the container width */
+/* Header, Summary, Form */
 .checkout-header,
 .order-summary,
 .checkout-form {
     width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
 }
 
@@ -28,7 +27,7 @@
     gap: 15px;
     margin: 0;
     border-bottom: 1px solid #333;
-    padding: 12px 0 12px; /* smaller padding so it visually matches other sections */
+    padding: 12px 0 12px;
 }
 
 .back-btn-checkout {
@@ -45,9 +44,8 @@
 /* Summary Section */
 .order-summary {
     background-color: #1e1e1e;
-    padding: 14px; /* match content spacing */
+    padding: 14px;
     border-radius: 12px;
-    margin: 0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
@@ -57,21 +55,79 @@
     color: #EAC8CA;
 }
 
+/* Updated Summary Row to support controls */
 .summary-row {
     display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #333;
+}
+.summary-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.row-main {
+    display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    align-items: center;
+    margin-bottom: 8px;
     font-size: 0.95rem;
 }
 
-.item-info {
+.item-name-group {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 
-.qty {
-    color: #EAC8CA;
+.qty-badge {
+    color: #1a1a1a;
+    background-color: #EAC8CA;
     font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* Controls */
+.row-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qty-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.ctrl-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ctrl-btn:hover {
+    background-color: #444;
+}
+
+.ctrl-btn.delete {
+    background-color: #3a1d1d;
+    color: #ff6b6b;
+}
+.ctrl-btn.delete:hover {
+    background-color: #4d2626;
 }
 
 .divider {
@@ -93,8 +149,6 @@
 
 /* Form Styles */
 .checkout-form {
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -104,10 +158,6 @@
     margin: 0 0 8px 0;
     font-size: 1.05rem;
     color: #EAC8CA;
-}
-
-.form-group {
-    margin: 0;
 }
 
 .form-group label {
@@ -146,11 +196,7 @@
     border-radius: 12px;
     font-size: 1.05rem;
     cursor: pointer;
-    transition: transform 0.15s;
-}
-
-.confirm-btn:active {
-    transform: scale(0.98);
+    margin-top: 10px;
 }
 
 @keyframes fadeIn {
@@ -158,19 +204,30 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Light mode adjustments keep using the parent's light colors */
-.mobile-wrapper.light-mode .order-summary h3 {
+/* Light mode adjustments */
+.mobile-wrapper.light-mode .order-summary h3,
+.mobile-wrapper.light-mode .checkout-form h3,
+.mobile-wrapper.light-mode .total-price,
+.mobile-wrapper.light-mode .form-group label {
     color: #6b3b3b;
 }
-.mobile-wrapper.light-mode .total-price{
-    color: #6b3b3b;
+
+.mobile-wrapper.light-mode .qty-badge {
+    background-color: #6b3b3b;
+    color: #fff;
 }
-.mobile-wrapper.light-mode .qty{
-    color: #6b3b3b;
+
+.mobile-wrapper.light-mode .ctrl-btn {
+    background-color: #e0e0e0;
+    color: #333;
 }
-.mobile-wrapper.light-mode .checkout-form h3{
-    color: #6b3b3b;
+
+.mobile-wrapper.light-mode .ctrl-btn.delete {
+    background-color: #ffeaea;
+    color: #d32f2f;
 }
-.mobile-wrapper.light-mode .form-group label{
-    color: #6b3b3b;
+
+.mobile-wrapper.light-mode .summary-row,
+.mobile-wrapper.light-mode .divider {
+    border-color: #eee;
 }
