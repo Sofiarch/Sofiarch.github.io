@@ -26,7 +26,8 @@ function App() {
     emptyMenu: isEnglish ? "No items added yet." : "لم يتم إضافة عناصر بعد.",
     showOrder: isEnglish ? "Show my order" : "عرض طلبي",
     orderPlaced: isEnglish ? "Thank you! Your order has been placed." : "شكراً لك! تم استلام طلبك.",
-    total: isEnglish ? "Total" : "المجموع"
+    total: isEnglish ? "Total" : "المجموع",
+    foundItems: isEnglish ? "Matching Items" : "عناصر مطابقة"
   };
 
   const addToCart = (item) => {
@@ -45,7 +46,6 @@ function App() {
     });
   };
 
-  // New function to completely remove an item
   const deleteFromCart = (itemId) => {
     setCart(prev => {
         const newCart = { ...prev };
@@ -64,6 +64,7 @@ function App() {
 
   const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
 
+  // 1. Filter Categories
   const visibleCategories = categoriesData.filter((cat) => {
     const titleToCheck = isEnglish ? cat.title : (cat.title_ar || cat.title);
     if (searchTerm) {
@@ -72,12 +73,31 @@ function App() {
     return cat.section === activeSection;
   });
 
+  // 2. Filter Menu Items (New Logic)
+  const getVisibleMenuItems = () => {
+    if (!searchTerm) return [];
+    
+    // Flatten all categories into one big list of items
+    const allItems = Object.values(menuItems).flat();
+
+    return allItems.filter(item => {
+        const title = isEnglish ? item.title : (item.title_ar || item.title);
+        const description = isEnglish ? item.description : (item.description_ar || item.description);
+        const term = searchTerm.toLowerCase();
+
+        // Search in both Title and Description
+        return title.toLowerCase().includes(term) || description.toLowerCase().includes(term);
+    });
+  };
+
+  const visibleMenuItems = getVisibleMenuItems();
+  const hasResults = visibleCategories.length > 0 || visibleMenuItems.length > 0;
+
   return (
     <div
       className={`mobile-wrapper ${isDarkMode ? 'dark-mode' : 'light-mode'} ${!isEnglish ? 'arabic' : ''}`}
       dir={isEnglish ? 'ltr' : 'rtl'}
     >
-      
       <Header 
         isEnglish={isEnglish} 
         onToggleLang={() => setIsEnglish(!isEnglish)} 
@@ -86,6 +106,7 @@ function App() {
         onGoHome={() => {
             setSelectedCategory(null);
             setIsCheckout(false);
+            setSearchTerm('');
         }}
       />
       
@@ -95,7 +116,6 @@ function App() {
                 cart={cart}
                 onBack={() => setIsCheckout(false)}
                 onPlaceOrder={handlePlaceOrder}
-                // Pass the new controls down
                 onAdd={addToCart}
                 onRemove={removeFromCart}
                 onDelete={deleteFromCart}
@@ -103,7 +123,6 @@ function App() {
             />
         ) : (
             <>
-                {/* ... (Existing Marquee and Search logic remains unchanged) ... */}
                 <Marquee 
                     activeSection={activeSection} 
                     onSectionChange={(section) => {
@@ -117,22 +136,54 @@ function App() {
                 {!selectedCategory ? (
                   <>
                     <SearchBar onSearch={setSearchTerm} isEnglish={isEnglish} />
+                    
+                    {/* Display Matching Categories */}
                     <div className="cards">
-                      {visibleCategories.length > 0 ? (
-                        visibleCategories.map((cat) => (
-                          <div key={cat.id} onClick={() => setSelectedCategory(cat.type)}>
-                             <CategoryCard 
-                                title={isEnglish ? cat.title : (cat.title_ar || cat.title)} 
-                                image={cat.image} 
-                             />
-                          </div>
-                        ))
-                      ) : (
-                        <p style={{textAlign:'center', marginTop:'20px', color: '#888'}}>
-                            {searchTerm ? t.noResults : t.comingSoon}
-                        </p>
-                      )}
+                      {visibleCategories.map((cat) => (
+                        <div key={cat.id} onClick={() => setSelectedCategory(cat.type)}>
+                            <CategoryCard 
+                              title={isEnglish ? cat.title : (cat.title_ar || cat.title)} 
+                              image={cat.image} 
+                            />
+                        </div>
+                      ))}
                     </div>
+
+                    {/* Display Matching Items Directly */}
+                    {visibleMenuItems.length > 0 && (
+                        <div className="menu-list" style={{ marginTop: '10px' }}>
+                            <h3 style={{ margin: '0 0 15px', color: '#EAC8CA', padding: '0 5px' }}>
+                                {t.foundItems}
+                            </h3>
+                            {visibleMenuItems.map((item) => (
+                                <MenuItemCard 
+                                    key={item.id} 
+                                    item={{
+                                        ...item,
+                                        title: isEnglish ? item.title : (item.title_ar || item.title),
+                                        description: isEnglish ? item.description : (item.description_ar || item.description)
+                                    }}
+                                    quantity={cart[item.id] || 0}
+                                    onAdd={addToCart}
+                                    onRemove={removeFromCart}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Show "No Results" only if BOTH lists are empty */}
+                    {!hasResults && searchTerm && (
+                        <p style={{textAlign:'center', marginTop:'20px', color: '#888'}}>
+                            {t.noResults}
+                        </p>
+                    )}
+
+                    {/* Show "Coming Soon" only if not searching and empty category */}
+                    {!searchTerm && visibleCategories.length === 0 && (
+                        <p style={{textAlign:'center', marginTop:'20px', color: '#888'}}>
+                            {t.comingSoon}
+                        </p>
+                    )}
                   </>
                 ) : (
                   <div className="menu-list">
