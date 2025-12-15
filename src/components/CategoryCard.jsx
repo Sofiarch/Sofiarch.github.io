@@ -1,20 +1,18 @@
-import React from 'react';
+import { SERVER_URL } from '../api';
 
 const CategoryCard = ({ title, image }) => {
+  const imageUrl = image && image.startsWith('/uploads') 
+      ? `${SERVER_URL}${image}` 
+      : image;
+
   return (
     <div className="card">
-      {/* 1. We create a dedicated div for the background.
-         2. We apply the image directly via inline styles using the prop.
-      */}
       <div 
         className="card-background" 
-        style={{ backgroundImage: `url(${image})` }}
+        style={{ backgroundImage: `url(${imageUrl})` }} 
       ></div>
-      
-      {/* The text sits on top */}
       <h2>{title}</h2>
     </div>
   );
 };
-
 export default CategoryCard;

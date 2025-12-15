@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import './Checkout.css';
-import { menuItems } from '../data/menuItems';
+// REMOVED: import { menuItems } from '../data/menuItems';  <-- This was the bug
 
-const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEnglish }) => {
-  // Translations
+const Checkout = ({ 
+    cart, 
+    onBack, 
+    onPlaceOrder, 
+    onAdd, 
+    onRemove, 
+    onDelete, 
+    isEnglish, 
+    allMenuItems // <--- NEW PROP: Receive real data from App
+}) => {
+  
   const t = {
     back: isEnglish ? "Back" : "رجوع",
     checkout: isEnglish ? "Checkout" : "إتمام الطلب",
@@ -18,16 +27,20 @@ const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEng
     confirm: isEnglish ? "Confirm Order" : "تأكيد الطلب"
   };
 
+  // Helper to find item in the live data
   const findItem = (id) => {
-    const allItems = Object.values(menuItems).flat();
-    return allItems.find(item => item.id === parseInt(id));
+    // Flatten the grouped menu items into a single array
+    const flatItems = Object.values(allMenuItems).flat();
+    // Compare as strings to handle MongoDB IDs (e.g., "65a...") correctly
+    return flatItems.find(item => String(item.id) === String(id) || String(item._id) === String(id));
   };
 
   const cartEntries = Object.entries(cart);
   
+  // Calculate total using live prices
   const totalAmount = cartEntries.reduce((sum, [id, qty]) => {
     const item = findItem(id);
-    return sum + (item ? item.price * qty : 0);
+    return sum + (item ? Number(item.price) * qty : 0);
   }, 0);
 
   const [formData, setFormData] = useState({ name: '', phone: '', address: '' });
@@ -39,7 +52,6 @@ const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEng
 
   return (
     <div className="checkout-container" dir={isEnglish ? 'ltr' : 'rtl'}>
-      {/* Header */}
       <div className="checkout-header">
         <button className="back-btn-checkout" onClick={onBack}>
           <i className={`fa-solid ${isEnglish ? 'fa-arrow-left' : 'fa-arrow-right'}`}></i> {t.back}
@@ -47,13 +59,14 @@ const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEng
         <h2>{t.checkout}</h2>
       </div>
 
-      {/* Order Summary */}
       <div className="order-summary">
         <h3>{t.yourOrder}</h3>
         <div className="summary-items">
           {cartEntries.map(([id, qty]) => {
             const item = findItem(id);
+            // If item deleted from database but still in cart, skip it
             if (!item) return null;
+            
             const title = isEnglish ? item.title : (item.title_ar || item.title);
             
             return (
@@ -66,9 +79,8 @@ const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEng
                     <span className="item-price">{(item.price * qty).toFixed(3)}</span>
                 </div>
                 
-                {/* Controls for Add/Remove/Delete */}
                 <div className="row-controls">
-                    <button className="ctrl-btn delete" onClick={() => onDelete(item.id)}>
+                    <button className="ctrl-btn delete" onClick={() => onDelete(item.id || item._id)}>
                         <i className="fa-solid fa-trash"></i>
                     </button>
                     <div className="qty-controls">
@@ -93,45 +105,21 @@ const Checkout = ({ cart, onBack, onPlaceOrder, onAdd, onRemove, onDelete, isEng
         </div>
       </div>
 
-      {/* Customer Form */}
       <form className="checkout-form" onSubmit={handleSubmit}>
         <h3>{t.deliveryDetails}</h3>
-        
         <div className="form-group">
           <label>{t.fullName}</label>
-          <input 
-            type="text" 
-            required 
-            placeholder={t.enterName}
-            value={formData.name}
-            onChange={e => setFormData({...formData, name: e.target.value})}
-          />
+          <input type="text" required placeholder={t.enterName} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
         </div>
-
         <div className="form-group">
           <label>{t.phone}</label>
-          <input 
-            type="tel" 
-            required 
-            placeholder="07xxxxxxxxx"
-            value={formData.phone}
-            onChange={e => setFormData({...formData, phone: e.target.value})}
-          />
+          <input type="tel" required placeholder="07xxxxxxxxx" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
         </div>
-
         <div className="form-group">
           <label>{t.address}</label>
-          <textarea 
-            rows="3" 
-            placeholder={t.addressPlaceholder}
-            value={formData.address}
-            onChange={e => setFormData({...formData, address: e.target.value})}
-          ></textarea>
+          <textarea rows="3" placeholder={t.addressPlaceholder} value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})}></textarea>
         </div>
-
-        <button type="submit" className="confirm-btn">
-          {t.confirm}
-        </button>
+        <button type="submit" className="confirm-btn">{t.confirm}</button>
       </form>
     </div>
   );

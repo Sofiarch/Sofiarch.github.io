@@ -1,23 +1,20 @@
+// src/components/Marquee.jsx
 import React from 'react';
 
-const Marquee = ({ activeSection, onSectionChange, isEnglish }) => {
-    const sections = [
-        { id: 'foods', label: isEnglish ? 'Foods' : 'مأكولات' },
-        { id: 'drinks', label: isEnglish ? 'Drinks' : 'مشروبات' },
-        { id: 'hookah', label: isEnglish ? 'Hookah' : 'أركيلة' },
-        { id: 'desserts', label: isEnglish ? 'Desserts' : 'حلويات' },
-    ];
+const Marquee = ({ sections, activeSection, onSectionChange, isEnglish }) => {
+    // Safety check: If data hasn't loaded yet, show nothing (prevents crashes)
+    if (!sections || sections.length === 0) return null;
 
     return (
         <nav className="marquee-nav">
             <div className="marquee-scroll-container">
                 {sections.map((sec) => (
                     <button 
-                        key={sec.id}
-                        className={`marquee-btn ${activeSection === sec.id ? 'active' : ''}`}
-                        onClick={() => onSectionChange(sec.id)}
+                        key={sec._id || sec.id}
+                        className={`marquee-btn ${activeSection === sec.key ? 'active' : ''}`}
+                        onClick={() => onSectionChange(sec.key)}
                     >
-                        {sec.label}
+                        {isEnglish ? sec.title : sec.title_ar}
                     </button>
                 ))}
             </div>
