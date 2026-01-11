@@ -1,6 +1,4 @@
 import React from 'react';
-// Make sure this matches your image file name exactly
-
 
 const Header = ({ isEnglish, onToggleLang, onGoHome, isDarkMode, onToggleTheme }) => {
   return (
@@ -38,8 +36,11 @@ const Header = ({ isEnglish, onToggleLang, onGoHome, isDarkMode, onToggleTheme }
       {/* 2. Center: Logo */}
       <div className="logo" onClick={onGoHome} style={{cursor: 'pointer'}}>
         
-        {/* Logo Image */}
-        <img src={isDarkMode? "public/pics/Images/Logo.png" : "public/pics/Images/Logo-light.png"} alt="Family Restobar" />
+        {/* FIX: Removed 'public/' prefix. Files in public folder are served at root '/' */}
+        <img 
+          src={isDarkMode ? "/Logo.png" : "/Logo-light.png"} 
+          alt="Logo" 
+        />
         
         <div className="header-info">
           <p className="address">
@@ -47,7 +48,6 @@ const Header = ({ isEnglish, onToggleLang, onGoHome, isDarkMode, onToggleTheme }
             {isEnglish ? ' Baghdad, Al-Mansour, Al-dawodi' : 'المنصور الداوودي جانب معهد المجد'}
           </p>
           
-          {/* UPDATED PHONE SECTION: Both numbers added */}
           <p className="phone" style={{ flexWrap: 'wrap', justifyContent: 'center' }}>
             <a href="tel:07766668029" onClick={(e) => e.stopPropagation()}>
               <i className="fa-solid fa-phone"></i> 07766668029
