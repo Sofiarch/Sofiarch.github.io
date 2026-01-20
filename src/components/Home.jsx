@@ -3,12 +3,11 @@ import { motion } from 'framer-motion';
 import DarkVeil from './DarkVeil';
 
 // --- Reusable Animation Wrapper ---
-// This makes any text inside it fade in and slide up when you scroll to it
 const FadeIn = ({ children, delay = 0, className = "" }) => (
   <motion.div
     initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }} // Triggers when 50px of the element is visible
+    viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.8, delay, ease: "easeOut" }}
     className={className}
   >
@@ -43,7 +42,6 @@ const BenefitItem = ({ title, children, delay }) => (
 );
 
 export default function Home() {
-  // Hero Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },

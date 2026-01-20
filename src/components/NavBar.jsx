@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Logo from "../assets/logo-transparent.png";
+import { Link, useLocation } from 'react-router-dom'; // Import router hooks
+import Logo from "/Logo_3.png";
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredTab, setHoveredTab] = useState(null);
+  
+  const location = useLocation(); // Get current route
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -14,11 +17,14 @@ export default function NavBar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' }, // Changed from '#about' to '/about'
+    { name: 'Services', path: '/services' },
+    { name: 'Contact', path: '/#contact' },
   ];
+
+  // Helper to check if link is active
+  const isActive = (path) => location.pathname === path;
 
   return (
     <motion.nav
@@ -39,26 +45,28 @@ export default function NavBar() {
         `}
       >
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3 group z-10">
+        <Link to="/" className="flex items-center gap-3 group z-10">
           <img
             src={Logo}
             alt="LineX"
-            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+            className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
           />
-          
-        </a>
+        </Link>
 
-        {/* Desktop Links - INCREASED FONT SIZE (text-base) */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-4">
           {navLinks.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.path}
               onMouseEnter={() => setHoveredTab(item.name)}
               onMouseLeave={() => setHoveredTab(null)}
-              className="relative px-4 py-2 text-base font-medium text-gray-300 hover:text-white transition-colors"
+              className={`relative px-4 py-2 text-base font-medium transition-colors ${
+                isActive(item.path) ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
             >
-              {hoveredTab === item.name && (
+              {/* Highlight Hover or Active Tab */}
+              {(hoveredTab === item.name || isActive(item.path)) && (
                 <motion.div
                   layoutId="nav-pill"
                   className="absolute inset-0 bg-white/10 rounded-full -z-0"
@@ -66,18 +74,18 @@ export default function NavBar() {
                 />
               )}
               <span className="relative z-10">{item.name}</span>
-            </a>
+            </Link>
           ))}
         </div>
 
-        {/* CTA Button - INCREASED FONT SIZE (text-base) */}
+        {/* CTA Button */}
         <div className="hidden md:block z-10">
-          <a
-            href="#start"
+          <Link
+            to="/#contact"
             className="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2.5 rounded-full text-base font-bold transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(37,99,235,0.5)]"
           >
             Get Started
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -113,23 +121,23 @@ export default function NavBar() {
             className="absolute top-24 w-[90%] max-w-sm bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-3 md:hidden overflow-hidden backdrop-blur-3xl z-40"
           >
             {navLinks.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors font-medium text-lg text-center"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
             <div className="h-px bg-white/10 my-2" />
-            <a
-              href="#start"
+            <Link
+              to="/#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl bg-blue-600 text-white font-bold text-lg text-center shadow-lg"
             >
               Get Started
-            </a>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
