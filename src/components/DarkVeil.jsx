@@ -94,10 +94,13 @@ export default function DarkVeil({
     const width = parent?.clientWidth || window.innerWidth;
     const height = parent?.clientHeight || window.innerHeight;
 
+    // Optimization: Use lower resolution on mobile devices to prevent lag
+    const isMobile = window.innerWidth < 768;
+    
     const renderer = new Renderer({
       width: width,
       height: height,
-      dpr: Math.min(window.devicePixelRatio, 2),
+      dpr: isMobile ? 1 : Math.min(window.devicePixelRatio, 2), // Force 1.0 dpr on mobile
       canvas,
       alpha: true,
       webgl: 1, 

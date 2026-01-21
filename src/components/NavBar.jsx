@@ -42,7 +42,7 @@ export default function NavBar() {
         className={`
           relative flex items-center justify-between px-6 md:px-8 transition-all duration-700 ease-out
           ${scrolled 
-            ? 'w-[95%] max-w-5xl h-16 bg-white/80 dark:bg-black/80 border border-black/5 dark:border-white/10 shadow-lg backdrop-blur-xl rounded-full' 
+            ? 'w-[95%] max-w-5xl h-16 bg-slate-100/80 dark:bg-black/80 border border-black/5 dark:border-white/10 shadow-lg backdrop-blur-xl rounded-full' 
             : 'w-full max-w-7xl h-24 bg-transparent border-transparent'
           }
         `}

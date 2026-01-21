@@ -13,7 +13,6 @@ import Contact from './components/Contact';
 // --- Theme Context ---
 export const ThemeContext = createContext();
 
-// Helper to scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -24,7 +23,6 @@ const ScrollToTop = () => {
 
 function App() {
   const location = useLocation();
-  // Initialize theme from localStorage or system preference
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'dark';
@@ -32,7 +30,6 @@ function App() {
     return 'dark';
   });
 
-  // Apply theme class to HTML element
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
@@ -49,12 +46,10 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {/* Updated Classes:
-          1. duration-700: Slower, smoother fade (0.7s).
-          2. [&_*]:transition-... : This acts as a "Global CSS" rule. 
-             It tells EVERY child element to transition its colors/borders smoothly.
+      {/* FIX: Removed 'opacity' and 'filter' from the transition list below.
+         This prevents the CSS from fighting with Framer Motion animations.
       */}
-      <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-all duration-700 [&_*]:transition-[background-color,border-color,color,fill,stroke,opacity,filter] [&_*]:duration-700 [&_*]:ease-in-out">
+      <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700 [&_*]:transition-[background-color,border-color,color,fill,stroke] [&_*]:duration-700 [&_*]:ease-in-out">
         <ScrollToTop />
         <NavBar />
         
