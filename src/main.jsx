@@ -1,13 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom' // Import this
-import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import './index.css'
+// Change this import:
+import { HashRouter } from 'react-router-dom' 
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    {/* Use HashRouter instead of BrowserRouter */}
+    <HashRouter>
       <App />
-    </BrowserRouter>
-  </StrictMode>,
+    </HashRouter>
+  </React.StrictMode>,
 )
