@@ -11,7 +11,7 @@ export default function NavBar() {
   
   const location = useLocation();
 
-  // Define Logo Paths (assuming files are in the public folder)
+  // Define Logo Paths
   const logoSrc = theme === 'dark' ? '/Logo-dark.png' : '/Logo-light.png';
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function NavBar() {
         className={`
           relative flex items-center justify-between px-6 md:px-8 transition-all duration-700 ease-out
           ${scrolled 
-            ? 'w-[95%] max-w-5xl h-16 bg-slate-100/80 dark:bg-black/80 border border-black/5 dark:border-white/10 shadow-lg backdrop-blur-xl rounded-full' 
+            ? 'w-[90%] md:w-[95%] max-w-5xl h-16 rounded-full shadow-2xl backdrop-blur-3xl backdrop-saturate-200 bg-white/10 dark:bg-neutral-900/30 border border-white/20 dark:border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]' 
             : 'w-full max-w-7xl h-24 bg-transparent border-transparent'
           }
         `}
@@ -67,13 +67,13 @@ export default function NavBar() {
               className={`relative px-4 py-2 text-base font-medium transition-colors ${
                 isActive(item.path) 
                   ? 'text-black dark:text-white' 
-                  : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
+                  : 'text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white'
               }`}
             >
               {(hoveredTab === item.name || isActive(item.path)) && (
                 <motion.div
                   layoutId="nav-pill"
-                  className="absolute inset-0 bg-black/5 dark:bg-white/10 rounded-full -z-0"
+                  className="absolute inset-0 bg-white/20 dark:bg-white/10 rounded-full -z-0"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -87,7 +87,7 @@ export default function NavBar() {
           {/* Animated Theme Toggle */}
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 transition-colors relative w-10 h-10 flex items-center justify-center overflow-hidden"
+            className="p-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/10 transition-colors relative w-10 h-10 flex items-center justify-center overflow-hidden"
             aria-label="Toggle Theme"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -133,7 +133,7 @@ export default function NavBar() {
         <div className="flex items-center gap-4 md:hidden z-50">
            <button 
             onClick={toggleTheme}
-            className="text-gray-600 dark:text-white relative w-8 h-8 flex items-center justify-center"
+            className="text-gray-800 dark:text-white relative w-8 h-8 flex items-center justify-center"
           >
             <AnimatePresence mode="wait" initial={false}>
               {theme === 'dark' ? (
@@ -196,7 +196,7 @@ export default function NavBar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-24 w-[90%] max-w-sm bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-3 md:hidden overflow-hidden backdrop-blur-3xl z-40"
+            className="absolute top-24 w-[90%] max-w-sm bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-3xl backdrop-saturate-150 border border-black/5 dark:border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-3 md:hidden overflow-hidden z-40"
           >
             {navLinks.map((item) => (
               <Link
@@ -204,7 +204,7 @@ export default function NavBar() {
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block p-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors font-medium text-lg text-center ${
-                  isActive(item.path) ? 'text-black dark:text-white bg-black/5 dark:bg-white/10' : 'text-gray-600 dark:text-gray-300'
+                  isActive(item.path) ? 'text-black dark:text-white bg-black/5 dark:bg-white/10' : 'text-gray-800 dark:text-gray-300'
                 }`}
               >
                 {item.name}
