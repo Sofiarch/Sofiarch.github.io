@@ -24,7 +24,6 @@ const InfiniteCountUp = ({ to, duration }) => {
 
   useEffect(() => {
     if (isInView) {
-      // Wait for the duration of the count-up, then switch to Infinity
       const timer = setTimeout(() => setIsCompleted(true), duration * 1000);
       return () => clearTimeout(timer);
     }
@@ -47,7 +46,6 @@ const InfiniteCountUp = ({ to, duration }) => {
   );
 };
 
-// --- Values Data & Icons ---
 const values = [
   {
     title: "Integrity",
@@ -110,7 +108,7 @@ export default function About() {
   return (
     <>
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-32 pb-40 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center items-center">
+      <section className="relative pt-32 pb-40 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center items-center bg-white dark:bg-black">
         
         {/* Background Layer (Aurora) */}
         <div className="absolute inset-0 z-0 opacity-60">
@@ -128,13 +126,13 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-display text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl"
+            className="font-display text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 drop-shadow-2xl"
           >
             About LineX
           </motion.h1>
           
           <FadeIn delay={0.2}>
-            <p className="text-xl md:text-2xl text-blue-200/80 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-blue-200/80 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
               We are a team of visionaries, creators, and engineers dedicated to redefining the digital landscape from Iraq to the world.
             </p>
           </FadeIn>
@@ -142,15 +140,15 @@ export default function About() {
       </section>
 
       {/* --- MAIN CONTENT SECTION --- */}
-      <section className="py-24 px-6 bg-black relative z-10">
+      <section className="py-24 px-6 bg-gray-50 dark:bg-black relative z-10">
         <div className="max-w-7xl mx-auto">
           
           {/* Mission & Vision Grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-24">
             <FadeIn delay={0.1} className="h-full">
-              <div className="bg-[#0a0a0a] border border-white/10 p-10 rounded-2xl h-full hover:border-blue-500/30 transition-colors">
-                <h2 className="text-3xl font-bold text-white font-display mb-6">Our Mission</h2>
-                <div className="space-y-4 text-gray-400 text-lg leading-relaxed">
+              <div className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 p-10 rounded-2xl h-full hover:border-blue-500/30 transition-colors shadow-sm dark:shadow-none">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display mb-6">Our Mission</h2>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
                   <p>
                     At LineX, we believe that code is more than just syntax—it is the language of the future. Our mission is to bridge the gap between imagination and reality by building digital solutions that are not only functional but transformative.
                   </p>
@@ -162,9 +160,9 @@ export default function About() {
             </FadeIn>
 
             <FadeIn delay={0.2} className="h-full">
-              <div className="bg-[#0a0a0a] border border-white/10 p-10 rounded-2xl h-full hover:border-purple-500/30 transition-colors">
-                <h2 className="text-3xl font-bold text-white font-display mb-6">Our Vision</h2>
-                <div className="space-y-4 text-gray-400 text-lg leading-relaxed">
+              <div className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 p-10 rounded-2xl h-full hover:border-purple-500/30 transition-colors shadow-sm dark:shadow-none">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display mb-6">Our Vision</h2>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
                   <p>
                     We envision a world where technology is seamless, invisible, and empowering. From simple landing pages to complex enterprise ecosystems, we approach every project with the same level of obsession for detail and quality.
                   </p>
@@ -179,20 +177,20 @@ export default function About() {
           {/* Values Section */}
           <div className="mb-24">
             <FadeIn className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white font-display mb-4">Our Values</h2>
-              <p className="text-gray-400 text-lg">Our core principles that drive every decision.</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white font-display mb-4">Our Values</h2>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">Our core principles that drive every decision.</p>
               <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mt-6" />
             </FadeIn>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {values.map((val, i) => (
                 <FadeIn key={i} delay={i * 0.1} className="h-full">
-                  <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-2xl h-full flex flex-col items-center text-center hover:bg-white/5 transition-all group">
-                    <div className="w-12 h-12 rounded-xl bg-blue-900/20 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                  <div className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 p-8 rounded-2xl h-full flex flex-col items-center text-center hover:bg-gray-100 dark:hover:bg-white/5 transition-all group shadow-sm dark:shadow-none">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
                       {val.icon}
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3 font-display">{val.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 font-display">{val.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                       {val.desc}
                     </p>
                   </div>
@@ -202,21 +200,19 @@ export default function About() {
           </div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-gray-200 dark:border-white/10">
              {[
                 { label: "Projects Shipped", value: 120, suffix: "+" },
                 { label: "Happy Clients", value: 99.9, suffix: "%" },
                 { label: "Years Experience", value: 7, suffix: "+" },
-                // Changed value to 10000 and added isInfinite flag
                 { label: "Coffee Consumed", value: 100000, isInfinite: true } 
              ].map((stat, i) => (
                <FadeIn 
                  key={i}
                  delay={i * 0.1}
-                 className="text-center p-8 bg-[#0a0a0a] rounded-2xl border border-white/10 hover:border-blue-500/50 transition-colors mt-8"
+                 className="text-center p-8 bg-white dark:bg-[#0a0a0a] rounded-2xl border border-gray-200 dark:border-white/10 hover:border-blue-500/50 transition-colors mt-8 shadow-sm dark:shadow-none"
                >
-                  <div className="text-3xl md:text-5xl font-bold text-blue-500 font-display mb-2 flex justify-center items-center gap-1">
-                    {/* Logic for Infinite Counter vs Normal Counter */}
+                  <div className="text-3xl md:text-5xl font-bold text-blue-600 dark:text-blue-500 font-display mb-2 flex justify-center items-center gap-1">
                     {stat.isInfinite ? (
                       <InfiniteCountUp to={stat.value} duration={5} />
                     ) : stat.isStatic ? (
@@ -235,7 +231,7 @@ export default function About() {
                       </>
                     )}
                   </div>
-                  <div className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{stat.label}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">{stat.label}</div>
                </FadeIn>
              ))}
           </div>
