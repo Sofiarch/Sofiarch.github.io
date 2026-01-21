@@ -35,7 +35,8 @@ const ProcessStep = ({ number, title, desc, delay }) => (
 export default function Services() {
   return (
     <>
-      <section className="relative pt-32 pb-20 px-6 min-h-[80vh] overflow-hidden flex flex-col justify-center">
+      {/* Changed min-h-[80vh] to min-h-[90vh] to match Home/About */}
+      <section className="relative pt-32 pb-20 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center">
         
         {/* --- Background Layer --- */}
         <div className="absolute inset-0 z-0">
@@ -111,7 +112,7 @@ export default function Services() {
         </div>
       </section>
 
-      {/* PROJECT GALLERY SECTION - Fixed Alignment */}
+      {/* PROJECT GALLERY SECTION */}
       <section className="py-24 bg-[#050505] border-t border-white/5 relative z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-end gap-4">
           <FadeIn>
@@ -126,7 +127,6 @@ export default function Services() {
           </div>
         </div>
         
-        {/* Changed: Removed complex padding, used standard container to align flush left */}
         <div className="max-w-7xl mx-auto px-6">
           <ProjectGallery />
         </div>

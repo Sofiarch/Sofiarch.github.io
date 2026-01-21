@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom'; // Import router hooks
+import { Link, useLocation } from 'react-router-dom';
 import Logo from "/Logo_3.png";
 
 export default function NavBar() {
@@ -8,19 +8,21 @@ export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredTab, setHoveredTab] = useState(null);
   
-  const location = useLocation(); // Get current route
+  const location = useLocation();
 
+  // Handle scroll effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Updated Links to point to specific pages
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' }, // Changed from '#about' to '/about'
+    { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Contact', path: '/#contact' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   // Helper to check if link is active
@@ -81,14 +83,14 @@ export default function NavBar() {
         {/* CTA Button */}
         <div className="hidden md:block z-10">
           <Link
-            to="/#contact"
+            to="/contact"
             className="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2.5 rounded-full text-base font-bold transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(37,99,235,0.5)]"
           >
             Get Started
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Toggle Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-2 text-white z-50 relative"
@@ -125,14 +127,16 @@ export default function NavBar() {
                 key={item.name}
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors font-medium text-lg text-center"
+                className={`block p-3 rounded-xl hover:bg-white/5 transition-colors font-medium text-lg text-center ${
+                  isActive(item.path) ? 'text-white bg-white/10' : 'text-gray-300'
+                }`}
               >
                 {item.name}
               </Link>
             ))}
             <div className="h-px bg-white/10 my-2" />
             <Link
-              to="/#contact"
+              to="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl bg-blue-600 text-white font-bold text-lg text-center shadow-lg"
             >
