@@ -8,8 +8,9 @@ void main() {
 }
 `;
 
+// OPTIMIZATION 1: Switch to "mediump" (Medium Precision) instead of "highp"
 const FRAG = `#version 300 es
-precision highp float;
+precision mediump float;
 
 uniform float uTime;
 uniform float uAmplitude;
@@ -118,14 +119,13 @@ export default function Aurora(props) {
     const ctn = ctnDom.current;
     if (!ctn) return;
 
-    // --- OPTIMIZATION 1: Cap Resolution (dpr) ---
-    // Instead of using full retina resolution (window.devicePixelRatio which can be 3x),
-    // we limit it to 1. This massively reduces GPU load with minimal visual impact for blurred graphics.
+    // OPTIMIZATION 2: Set dpr to 0.5 (Half Resolution)
+    // OPTIMIZATION 3: Disable Antialiasing
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
-      antialias: true,
-      dpr: Math.min(window.devicePixelRatio, 1) 
+      antialias: false,    // Off
+      dpr: 0.5             // Half resolution (Huge speed boost)
     });
     
     const gl = renderer.gl;
@@ -174,7 +174,7 @@ export default function Aurora(props) {
 
     let animateId = 0;
     
-    // --- OPTIMIZATION 2: Pause when off-screen ---
+    // OPTIMIZATION 4: Stop animation completely when off-screen
     let isVisible = true;
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
@@ -189,7 +189,7 @@ export default function Aurora(props) {
     observer.observe(ctn);
 
     const update = t => {
-      if (!isVisible) return; // Double-check
+      if (!isVisible) return; 
 
       animateId = requestAnimationFrame(update);
       const { time = t * 0.01, speed = 1.0 } = propsRef.current;
@@ -204,7 +204,6 @@ export default function Aurora(props) {
       renderer.render({ scene: mesh });
     };
 
-    // Start loop
     animateId = requestAnimationFrame(update);
 
     resize();
