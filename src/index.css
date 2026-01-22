@@ -1,4 +1,4 @@
-/* Importing Outfit (for body) and Space Grotesk (for the big headline) */
+/* 1. Imports */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;700;900&family=Space+Grotesk:wght@700&display=swap');
 
 @tailwind base;
@@ -14,7 +14,7 @@
   }
   
   html {
-    font-family: 'Outfit', 'Cairo', sans-serif; /* Default font */
+    font-family: 'Outfit', 'Cairo', sans-serif;
     scroll-behavior: smooth;
   }
 
@@ -22,8 +22,22 @@
     @apply bg-black text-white antialiased selection:bg-blue-500/30;
   }
 
-  /* Custom class for the headline */
+  /* Default Headline Styles (English) */
   .font-display {
     font-family: 'Space Grotesk', 'Cairo', sans-serif;
+    @apply leading-tight;
+  }
+
+  /* --- ARABIC SPECIFIC FIXES --- */
+  html[lang="ar"] .font-display {
+    /* Increased to 1.8 to guarantee dots never touch */
+    line-height: 1.8 !important;
+    
+    /* Removes the 'tracking-tighter' effect which looks bad in Arabic */
+    letter-spacing: normal !important; 
+    
+    /* Adds safety padding */
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 }

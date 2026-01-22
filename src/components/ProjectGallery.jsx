@@ -60,7 +60,7 @@ const projectsData = {
 
 const ProjectCard = ({ project, language }) => (
   <motion.div 
-    // --- FIX: Force card direction based on language so text aligns correctly ---
+    // --- FIX: Force card direction to RTL if language is Arabic ---
     dir={language === 'ar' ? 'rtl' : 'ltr'} 
     className="min-w-[300px] md:min-w-[400px] h-[300px] rounded-xl bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 overflow-hidden flex flex-col shrink-0 group relative select-none pointer-events-none md:pointer-events-auto shadow-sm dark:shadow-none transition-colors duration-500"
   >
@@ -105,7 +105,7 @@ export default function ProjectGallery() {
   return (
     <div ref={constraintsRef} className="w-full overflow-hidden">
       <motion.div 
-        // Force LTR dragging direction even in Arabic so the carousel physics work
+        // Force LTR dragging direction so the slider works naturally in both languages
         dir="ltr"
         drag="x" 
         dragConstraints={constraintsRef}
