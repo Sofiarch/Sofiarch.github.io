@@ -72,7 +72,7 @@ export default function About() {
   const statsData = [
     { label: t.stats.projects, value: 50, suffix: "+" },
     { label: t.stats.clients, value: 99.9, suffix: "%" },
-    { label: t.stats.experience, value: 2, suffix: "+" },
+    { label: t.stats.experience, value: 4, suffix: "+" },
     { label: t.stats.coffee, value: 100000, isInfinite: true } 
   ];
 

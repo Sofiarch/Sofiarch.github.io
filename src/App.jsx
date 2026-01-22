@@ -10,7 +10,7 @@ import Services from './components/Services';
 import About from './components/About';
 import Contact from './components/Contact';
 import StartProject from './components/StartProject'; 
-import PageTransition from './components/PageTransition'; // <--- RESTORED IMPORT
+import PageTransition from './components/PageTransition';
 
 // --- Contexts ---
 export const ThemeContext = createContext();
@@ -73,14 +73,14 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <LanguageContext.Provider value={{ language, toggleLanguage }}>
-        <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700 [&_*]:transition-[background-color,border-color,color,fill,stroke] [&_*]:duration-700 [&_*]:ease-in-out">
+        {/* --- PERFORMANCE FIX: Removed the global [&_*] transition --- */}
+        <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700">
           <ScrollToTop />
           <NavBar />
           
           <main className="flex-grow">
             <AnimatePresence mode="wait">
               <Routes location={location} key={location.pathname}>
-                {/* RESTORED TRANSITION WRAPPERS */}
                 <Route 
                   path="/" 
                   element={
