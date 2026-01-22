@@ -118,11 +118,16 @@ export default function Aurora(props) {
     const ctn = ctnDom.current;
     if (!ctn) return;
 
+    // --- OPTIMIZATION 1: Cap Resolution (dpr) ---
+    // Instead of using full retina resolution (window.devicePixelRatio which can be 3x),
+    // we limit it to 1. This massively reduces GPU load with minimal visual impact for blurred graphics.
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
-      antialias: true
+      antialias: true,
+      dpr: Math.min(window.devicePixelRatio, 1) 
     });
+    
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
@@ -168,7 +173,24 @@ export default function Aurora(props) {
     ctn.appendChild(gl.canvas);
 
     let animateId = 0;
+    
+    // --- OPTIMIZATION 2: Pause when off-screen ---
+    let isVisible = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (!isVisible && animateId) {
+        cancelAnimationFrame(animateId);
+        animateId = 0;
+      } else if (isVisible && !animateId) {
+        animateId = requestAnimationFrame(update);
+      }
+    }, { threshold: 0 });
+    
+    observer.observe(ctn);
+
     const update = t => {
+      if (!isVisible) return; // Double-check
+
       animateId = requestAnimationFrame(update);
       const { time = t * 0.01, speed = 1.0 } = propsRef.current;
       program.uniforms.uTime.value = time * speed * 0.1;
@@ -181,11 +203,14 @@ export default function Aurora(props) {
       });
       renderer.render({ scene: mesh });
     };
+
+    // Start loop
     animateId = requestAnimationFrame(update);
 
     resize();
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
       if (ctn && gl.canvas.parentNode === ctn) {
