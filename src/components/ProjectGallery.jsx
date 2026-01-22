@@ -1,51 +1,91 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
+import { LanguageContext } from '../App';
 
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Dashboard",
-    category: "Web App",
-    gradient: "from-blue-600 to-cyan-500",
-  },
-  {
-    id: 2,
-    title: "Finance Corp",
-    category: "Corporate Site",
-    gradient: "from-purple-600 to-pink-500",
-  },
-  {
-    id: 3,
-    title: "Urban Architecture",
-    category: "Portfolio",
-    gradient: "from-emerald-600 to-teal-500",
-  },
-  {
-    id: 4,
-    title: "Tech Startup",
-    category: "Landing Page",
-    gradient: "from-orange-600 to-red-500",
-  },
-];
+// Define project data with translations internally
+const projectsData = {
+  en: [
+    {
+      id: 1,
+      title: "E-Commerce Dashboard",
+      category: "Web App",
+      image: "/projects/ecommerce.webp",
+    },
+    {
+      id: 2,
+      title: "Finance Corp",
+      category: "Corporate Site",
+      image: "/projects/finance.webp",
+    },
+    {
+      id: 3,
+      title: "Urban Architecture",
+      category: "Portfolio",
+      image: "/projects/architecture.webp",
+    },
+    {
+      id: 4,
+      title: "Tech Startup",
+      category: "Landing Page",
+      image: "/projects/tech.webp",
+    },
+  ],
+  ar: [
+    {
+      id: 1,
+      title: "لوحة تحكم المتجر",
+      category: "تطبيق ويب",
+      image: "/projects/ecommerce.webp",
+    },
+    {
+      id: 2,
+      title: "فاينانس كورب",
+      category: "موقع شركات",
+      image: "/projects/finance.webp",
+    },
+    {
+      id: 3,
+      title: "العمارة الحديثة",
+      category: "معرض أعمال",
+      image: "/projects/architecture.webp",
+    },
+    {
+      id: 4,
+      title: "شركة تقنية ناشئة",
+      category: "صفحة هبوط",
+      image: "/projects/tech.webp",
+    },
+  ]
+};
 
 const ProjectCard = ({ project }) => (
   <motion.div 
-    className="min-w-[300px] md:min-w-[400px] h-[300px] rounded-xl bg-[#111] border border-white/10 overflow-hidden flex flex-col shrink-0 group relative select-none pointer-events-none md:pointer-events-auto"
+    className="min-w-[300px] md:min-w-[400px] h-[300px] rounded-xl bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 overflow-hidden flex flex-col shrink-0 group relative select-none pointer-events-none md:pointer-events-auto shadow-sm dark:shadow-none transition-colors duration-500"
   >
-    {/* Browser Header */}
-    <div className="h-8 border-b border-white/10 bg-white/5 flex items-center px-3 gap-1.5">
+    {/* Browser Header (Toolbar) */}
+    <div className="h-8 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 flex items-center px-3 gap-1.5 transition-colors duration-500 z-10 relative" dir="ltr">
       <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
       <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
       <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
     </div>
 
     {/* Project Image Area */}
-    <div className={`flex-1 bg-gradient-to-br ${project.gradient} opacity-50 group-hover:opacity-80 transition-opacity duration-500 relative`}>
-      <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/90 to-transparent">
-        <span className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+    <div className="flex-1 relative overflow-hidden">
+      {/* The Image */}
+      <img 
+        src={project.image} 
+        alt={project.title}
+        loading="lazy"   
+        decoding="async" 
+        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+      />
+      
+      {/* Text Overlay */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+        <span className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-1 drop-shadow-md">
           {project.category}
         </span>
-        <h3 className="text-xl font-bold text-white font-display">
+        <h3 className="text-xl font-bold text-white font-display drop-shadow-md">
           {project.title}
         </h3>
       </div>
@@ -54,24 +94,20 @@ const ProjectCard = ({ project }) => (
 );
 
 export default function ProjectGallery() {
-  // We use this ref for the outer boundary
   const constraintsRef = useRef(null);
+  const { language } = useContext(LanguageContext);
+
+  // Select the correct array based on language
+  const projects = projectsData[language] || projectsData.en;
 
   return (
-    // 1. Attach ref to the outer wrapper
     <div ref={constraintsRef} className="w-full overflow-hidden">
       <motion.div 
-        // 2. Set drag to 'x' (horizontal)
+        // Force LTR dragging direction even in Arabic for natural carousel feel
+        dir="ltr"
         drag="x" 
-        
-        // 3. Point constraints to the outer ref. 
-        // Framer Motion automatically calculates the scroll limits.
         dragConstraints={constraintsRef}
-        
-        // 4. touch-pan-y: Crucial for mobile. 
-        // It tells the browser "Let user scroll UP/DOWN page, but I handle LEFT/RIGHT"
         className="flex gap-6 px-4 min-w-max touch-pan-y cursor-grab active:cursor-grabbing"
-        
         dragElastic={0.2}
         dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
       >

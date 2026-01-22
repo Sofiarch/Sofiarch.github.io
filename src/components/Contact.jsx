@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import Squares from './Squares';
-import { ThemeContext } from '../App';
+import { ThemeContext, LanguageContext } from '../App';
+import { translations } from '../translations';
 
 // --- Reusable FadeIn ---
 const FadeIn = ({ children, delay = 0, className = "" }) => (
@@ -18,11 +19,15 @@ const FadeIn = ({ children, delay = 0, className = "" }) => (
 
 export default function Contact() {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+  
+  // Get Contact translations
+  const t = translations[language].contact;
 
   return (
     <>
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-32 pb-20 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center items-center bg-white dark:bg-black">
+      <section className="relative pt-32 pb-20 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center items-center bg-white dark:bg-black transition-colors duration-700">
         
         {/* Background Layer (Squares) */}
         <div className="absolute inset-0 z-0">
@@ -43,32 +48,30 @@ export default function Contact() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="font-display text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 drop-shadow-2xl"
           >
-            Contact Us
+            {t.title}
           </motion.h1>
           
           <FadeIn delay={0.2}>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-blue-200/80 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
-              Let's build something extraordinary together.
+              {t.subtitle}
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* --- FORM & CONTACT INFO SECTION --- */}
-      <section className="py-20 px-6 bg-gray-50 dark:bg-black relative z-10 border-t border-gray-200 dark:border-white/5">
+      {/* --- DIRECT CONTACT SECTION --- */}
+      <section className="py-20 px-6 bg-gray-50 dark:bg-black relative z-10 border-t border-gray-200 dark:border-white/5 transition-colors duration-700">
         <div className="max-w-4xl mx-auto">
           
-          {/* 1. Direct Contact Info & Explanation */}
-          <div className="mb-16 grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             
             {/* Left: Text Explanation */}
             <FadeIn delay={0.1} className="flex flex-col justify-center">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white font-display mb-4">
-                Get in touch directly
+                {t.getInTouch}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                Prefer to skip the form? No problem. You can reach out to us directly via email or phone. 
-                Whether you have a quick question or a detailed project proposal, we are always ready to chat.
+                {t.desc}
               </p>
               <div className="h-1 w-12 bg-blue-600 rounded-full" />
             </FadeIn>
@@ -84,7 +87,7 @@ export default function Contact() {
                     </svg>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500 mb-1">Email Us</div>
+                    <div className="text-sm text-gray-500 mb-1">{t.emailLabel}</div>
                     <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">hello@linex.com</div>
                   </div>
                 </a>
@@ -99,56 +102,13 @@ export default function Contact() {
                     </svg>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500 mb-1">Call Us</div>
+                    <div className="text-sm text-gray-500 mb-1">{t.callLabel}</div>
                     <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">+964 000 000 0000</div>
                   </div>
                 </a>
               </FadeIn>
             </div>
           </div>
-
-          {/* 2. Contact Form */}
-          <FadeIn delay={0.4} className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl p-8 md:p-12 shadow-xl dark:shadow-2xl relative overflow-hidden">
-            {/* Decorative Glow inside form */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            
-            <form className="space-y-8 relative z-10">
-              
-              {/* Row 1: Name (Full Width) */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">Name</label>
-                <input type="text" placeholder="John Doe" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
-              </div>
-
-              {/* Row 2: Email & Phone */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">Email</label>
-                  <input type="email" placeholder="john@example.com" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">Phone Number <span className="text-gray-400 dark:text-gray-600 font-normal">(Optional)</span></label>
-                  <input type="tel" placeholder="+964 770..." className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
-                </div>
-              </div>
-
-              {/* Row 3: Message Field */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">Project Details</label>
-                <textarea rows="5" placeholder="Tell us about your project, goals, and timeline..." className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"></textarea>
-              </div>
-
-              {/* Submit Button */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-blue-600/30 dark:hover:shadow-blue-500/30 transition-all"
-              >
-                Send Message
-              </motion.button>
-            </form>
-          </FadeIn>
-
         </div>
       </section>
     </>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import ColorBends from './ColorBends';
 import ProjectGallery from './ProjectGallery';
+import { ThemeContext, LanguageContext } from '../App';
+import { translations } from '../translations';
 
 const FadeIn = ({ children, delay = 0, className = "" }) => (
   <motion.div
@@ -33,9 +35,16 @@ const ProcessStep = ({ number, title, desc, delay }) => (
 );
 
 export default function Services() {
+  const { language } = useContext(LanguageContext);
+  
+  // Access translations
+  const t = translations[language].services;
+  // Reuse service descriptions from Home translations to ensure consistency
+  const t_cards = translations[language].home.services;
+
   return (
     <>
-      <section className="relative pt-32 pb-20 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center bg-white dark:bg-black">
+      <section className="relative pt-32 pb-20 px-6 min-h-[90vh] overflow-hidden flex flex-col justify-center bg-white dark:bg-black transition-colors duration-700">
         
         {/* --- Background Layer --- */}
         <div className="absolute inset-0 z-0">
@@ -61,7 +70,7 @@ export default function Services() {
             animate={{ opacity: 1, y: 0 }}
             className="font-display text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 drop-shadow-2xl"
           >
-            Our Services
+            {t.title}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -69,24 +78,25 @@ export default function Services() {
             transition={{ delay: 0.2 }}
             className="text-gray-600 dark:text-gray-200 text-xl max-w-2xl mx-auto drop-shadow-lg"
           >
-            Comprehensive digital solutions engineered for growth, performance, and scalability.
+            {t.subtitle}
           </motion.p>
         </div>
       </section>
 
       {/* Main Services Grid */}
-      <section className="py-24 px-6 bg-gray-50 dark:bg-black relative z-10">
+      <section className="py-24 px-6 bg-gray-50 dark:bg-black relative z-10 transition-colors duration-700">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           
           <FadeIn delay={0.1} className="p-8 rounded-2xl bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 hover:border-blue-500/50 transition-colors group shadow-sm dark:shadow-none">
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">Custom Development</h3>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">{t_cards.custom.title}</h3>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-              Full-stack engineering tailored to your needs. We build websites and web applications based on your vision, business needs, and the problems you want to solve.
+              {t_cards.custom.desc}
             </p>
             <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-500">
+              {/* You can allow these to be English technical terms or translate them if preferred */}
               <li>• React / Next.js Architecture</li>
               <li>• High-performance Animation</li>
               <li>• SEO Optimization</li>
@@ -97,9 +107,9 @@ export default function Services() {
             <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">Complex Web Platforms</h3>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">{t_cards.platform.title}</h3>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-               Robust solutions for SaaS businesses and e-commerce. We focus on scalability, security, and creating intuitive dashboards for complex data.
+               {t_cards.platform.desc}
             </p>
             <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-500">
               <li>• SaaS Architecture</li>
@@ -112,17 +122,17 @@ export default function Services() {
       </section>
 
       {/* PROJECT GALLERY SECTION */}
-      <section className="py-24 bg-gray-100 dark:bg-[#050505] border-t border-gray-200 dark:border-white/5 relative z-10 overflow-hidden">
+      <section className="py-24 bg-gray-100 dark:bg-[#050505] border-t border-gray-200 dark:border-white/5 relative z-10 overflow-hidden transition-colors duration-700">
         <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-end gap-4">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
-              Featured Projects
+              {t.galleryTitle}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">Drag to explore our latest work.</p>
+            <p className="text-gray-600 dark:text-gray-400">{t.galleryDrag}</p>
           </FadeIn>
           
           <div className="hidden md:flex gap-2 text-gray-500 dark:text-white/50 text-sm">
-            <span>&larr; Drag &rarr;</span>
+            <span>&larr; {language === 'ar' ? 'اسحب' : 'Drag'} &rarr;</span>
           </div>
         </div>
         
@@ -132,38 +142,23 @@ export default function Services() {
       </section>
 
       {/* Process Section */}
-      <section className="py-24 px-6 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-white/5">
+      <section className="py-24 px-6 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-white/5 transition-colors duration-700">
         <div className="max-w-4xl mx-auto">
           <FadeIn className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white font-display mb-4">How We Work</h2>
-            <p className="text-gray-600 dark:text-gray-400">Our proven process for delivering excellence.</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white font-display mb-4">{t.process.title}</h2>
+            <p className="text-gray-600 dark:text-gray-400">{t.process.subtitle}</p>
           </FadeIn>
 
           <div className="space-y-12">
-            <ProcessStep 
-              number="01" 
-              title="Discovery & Strategy" 
-              desc="We start by understanding your business goals, target audience, and technical requirements to build a roadmap for success." 
-              delay={0.1}
-            />
-            <ProcessStep 
-              number="02" 
-              title="Design & Prototyping" 
-              desc="We create high-fidelity designs and interactive prototypes, ensuring the user experience is intuitive before writing a single line of code." 
-              delay={0.2}
-            />
-             <ProcessStep 
-              number="03" 
-              title="Development & Testing" 
-              desc="Our engineering team builds your solution using modern frameworks, followed by rigorous testing for performance and security." 
-              delay={0.3}
-            />
-             <ProcessStep 
-              number="04" 
-              title="Launch & Support" 
-              desc="We handle the deployment process and provide ongoing support to ensure your platform runs smoothly as you scale." 
-              delay={0.4}
-            />
+            {t.process.steps.map((step, index) => (
+              <ProcessStep 
+                key={index}
+                number={`0${index + 1}`} 
+                title={step.title} 
+                desc={step.desc} 
+                delay={0.1 + (index * 0.1)}
+              />
+            ))}
           </div>
         </div>
       </section>

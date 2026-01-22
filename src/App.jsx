@@ -9,9 +9,12 @@ import Home from './components/Home';
 import Services from './components/Services';
 import About from './components/About';
 import Contact from './components/Contact';
+import StartProject from './components/StartProject'; 
+import PageTransition from './components/PageTransition'; // <--- RESTORED IMPORT
 
-// --- Theme Context ---
+// --- Contexts ---
 export const ThemeContext = createContext();
+export const LanguageContext = createContext();
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -23,6 +26,8 @@ const ScrollToTop = () => {
 
 function App() {
   const location = useLocation();
+  
+  // Theme State
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'dark';
@@ -30,6 +35,15 @@ function App() {
     return 'dark';
   });
 
+  // Language State
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('language') || 'en';
+    }
+    return 'en';
+  });
+
+  // Handle Theme Change
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
@@ -40,32 +54,80 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Handle Language Change
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.lang = language;
+    root.dir = language === 'ar' ? 'rtl' : 'ltr'; 
+    localStorage.setItem('language', language);
+  }, [language]);
+
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'));
+  };
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {/* FIX: Removed 'opacity' and 'filter' from the transition list below.
-         This prevents the CSS from fighting with Framer Motion animations.
-      */}
-      <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700 [&_*]:transition-[background-color,border-color,color,fill,stroke] [&_*]:duration-700 [&_*]:ease-in-out">
-        <ScrollToTop />
-        <NavBar />
-        
-        <main className="flex-grow">
-          <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </AnimatePresence>
-        </main>
-        
-        <Footer />
-      </div>
+      <LanguageContext.Provider value={{ language, toggleLanguage }}>
+        <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700 [&_*]:transition-[background-color,border-color,color,fill,stroke] [&_*]:duration-700 [&_*]:ease-in-out">
+          <ScrollToTop />
+          <NavBar />
+          
+          <main className="flex-grow">
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                {/* RESTORED TRANSITION WRAPPERS */}
+                <Route 
+                  path="/" 
+                  element={
+                    <PageTransition>
+                      <Home />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/services" 
+                  element={
+                    <PageTransition>
+                      <Services />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/about" 
+                  element={
+                    <PageTransition>
+                      <About />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/contact" 
+                  element={
+                    <PageTransition>
+                      <Contact />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/start" 
+                  element={
+                    <PageTransition>
+                      <StartProject />
+                    </PageTransition>
+                  } 
+                />
+              </Routes>
+            </AnimatePresence>
+          </main>
+          
+          <Footer />
+        </div>
+      </LanguageContext.Provider>
     </ThemeContext.Provider>
   );
 }
