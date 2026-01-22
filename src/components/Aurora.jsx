@@ -8,7 +8,6 @@ void main() {
 }
 `;
 
-// OPTIMIZATION 1: Switch to "mediump" (Medium Precision) instead of "highp"
 const FRAG = `#version 300 es
 precision mediump float;
 
@@ -97,7 +96,9 @@ void main() {
   float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
   height = exp(height);
   height = (uv.y * 2.0 - height + 0.2);
-  float intensity = 0.6 * height;
+  
+  // FIX: Increased intensity from 0.6 to 0.8 to make it more visible
+  float intensity = 0.8 * height;
   
   float midPoint = 0.20;
   float auroraAlpha = smoothstep(midPoint - uBlend * 0.5, midPoint + uBlend * 0.5, intensity);
@@ -119,13 +120,11 @@ export default function Aurora(props) {
     const ctn = ctnDom.current;
     if (!ctn) return;
 
-    // OPTIMIZATION 2: Set dpr to 0.5 (Half Resolution)
-    // OPTIMIZATION 3: Disable Antialiasing
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
-      antialias: false,    // Off
-      dpr: 0.5             // Half resolution (Huge speed boost)
+      antialias: false,
+      dpr: 0.5 // Keep low resolution for performance
     });
     
     const gl = renderer.gl;
@@ -141,8 +140,11 @@ export default function Aurora(props) {
       const width = ctn.offsetWidth;
       const height = ctn.offsetHeight;
       renderer.setSize(width, height);
+      
       if (program) {
-        program.uniforms.uResolution.value = [width, height];
+        // FIX: Use the ACTUAL canvas dimensions (which are scaled by dpr)
+        // This fixes the "small part" issue by matching the shader resolution to the low-res canvas
+        program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height];
       }
     }
     window.addEventListener('resize', resize);
@@ -164,7 +166,7 @@ export default function Aurora(props) {
         uTime: { value: 0 },
         uAmplitude: { value: amplitude },
         uColorStops: { value: colorStopsArray },
-        uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+        uResolution: { value: [gl.canvas.width, gl.canvas.height] }, // Initial fix
         uBlend: { value: blend }
       }
     });
@@ -174,7 +176,6 @@ export default function Aurora(props) {
 
     let animateId = 0;
     
-    // OPTIMIZATION 4: Stop animation completely when off-screen
     let isVisible = true;
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
@@ -189,7 +190,7 @@ export default function Aurora(props) {
     observer.observe(ctn);
 
     const update = t => {
-      if (!isVisible) return; 
+      if (!isVisible) return;
 
       animateId = requestAnimationFrame(update);
       const { time = t * 0.01, speed = 1.0 } = propsRef.current;
@@ -205,8 +206,7 @@ export default function Aurora(props) {
     };
 
     animateId = requestAnimationFrame(update);
-
-    resize();
+    resize(); // Call resize immediately to set correct initial uResolution
 
     return () => {
       observer.disconnect();
@@ -217,7 +217,6 @@ export default function Aurora(props) {
       }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amplitude]);
 
   return <div ref={ctnDom} className="w-full h-full" />;
