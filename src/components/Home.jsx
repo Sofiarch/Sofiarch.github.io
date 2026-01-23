@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import DarkVeil from './DarkVeil';
+// REMOVED: import DarkVeil from './DarkVeil'; 
 import { ThemeContext, LanguageContext } from '../App';
 import { translations } from '../translations';
+
+// --- OPTIMIZATION: Lazy Load the 3D Background ---
+// This keeps the heavy 'ogl' library out of your main bundle completely.
+const DarkVeil = lazy(() => import('./DarkVeil'));
 
 const FadeIn = ({ children, delay = 0, className = "" }) => (
   <motion.div
@@ -46,7 +50,17 @@ export default function Home() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   
-  // Get translations for Home page
+  // TBT FIX: Start with heavy graphics OFF
+  const [showHeavyGraphics, setShowHeavyGraphics] = useState(false);
+
+  useEffect(() => {
+    // Wait 1.5 seconds after load before requesting the heavy 3D code.
+    const timer = setTimeout(() => {
+      setShowHeavyGraphics(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+  
   const t = translations[language].home;
 
   const containerVariants = {
@@ -64,27 +78,31 @@ export default function Home() {
       {/* HERO SECTION */}
       <section id="home" className="h-[90vh] w-full relative overflow-hidden bg-white dark:bg-black transition-colors duration-700">
         
-        {/* Background Layer (DarkVeil) */}
+        {/* Background Layer (DarkVeil) - CONDITIONAL & LAZY */}
         <div 
-          className={`absolute inset-0 z-0 transition-all duration-700 ease-in-out ${
+          className={`absolute inset-0 z-0 transition-all duration-1000 ease-in-out ${
             theme === 'light' 
               ? 'invert hue-rotate-180 opacity-60' 
               : 'opacity-100'
           }`}
         >
-          <DarkVeil
-            hueShift={400}
-            noiseIntensity={0.03}
-            scanlineIntensity={0.05}
-            speed={0.5}
-            warpAmount={1.5}
-            fullScreen={false}
-          >
-            <div /> 
-          </DarkVeil>
+          {showHeavyGraphics && (
+            <Suspense fallback={<div />}>
+              <DarkVeil
+                hueShift={400}
+                noiseIntensity={0.03}
+                scanlineIntensity={0.05}
+                speed={0.5}
+                warpAmount={1.5}
+                fullScreen={false}
+              >
+                <div /> 
+              </DarkVeil>
+            </Suspense>
+          )}
         </div>
 
-        {/* Content Layer */}
+        {/* Content Layer (Kept exactly the same) */}
         <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-4 pt-16">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -102,7 +120,6 @@ export default function Home() {
               animate="visible"
               className="font-display text-5xl md:text-7xl font-bold text-gray-900 dark:text-white tracking-tighter drop-shadow-2xl mb-6"
             >
-              {/* Map over the headline array (e.g., ["Design", "Develop", "Deploy"]) */}
               {t.headline.map((word, index) => (
                 <motion.span 
                   key={index} 
@@ -140,7 +157,6 @@ export default function Home() {
       <section id="services" className="py-32 px-6 bg-white dark:bg-black relative z-10 transition-colors duration-700">
         <div className="max-w-7xl mx-auto">
           
-          {/* --- FIX: Changed md:text-left to md:text-start --- */}
           <FadeIn className="mb-20 text-center md:text-start">
             <h2 className="font-display text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
               {t.expertise}
@@ -169,7 +185,6 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-20 items-start">
             
-            {/* Left Side: Sticky Title */}
             <div className="lg:sticky lg:top-32">
               <FadeIn>
                 <h2 className="font-display text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-8">
@@ -181,7 +196,6 @@ export default function Home() {
               </FadeIn>
             </div>
 
-            {/* Right Side: List */}
             <div className="space-y-16">
               {t.benefits.items.map((item, index) => (
                 <BenefitItem 

@@ -1,16 +1,22 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
-// Component Imports
+// Component Imports (Static - Core Layout)
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import Home from './components/Home';
-import Services from './components/Services';
-import About from './components/About';
-import Contact from './components/Contact';
-import StartProject from './components/StartProject'; 
 import PageTransition from './components/PageTransition';
+
+// 1. EAGER LOAD (Critical Path)
+// Home loads instantly so the user sees content immediately (0s TBT impact)
+import Home from './components/Home';
+
+// 2. LAZY LOAD (Non-Critical)
+// These download in the background. We use ".jsx" to ensure Vite finds them.
+const Services = lazy(() => import('./components/Services.jsx'));
+const About = lazy(() => import('./components/About.jsx'));
+const Contact = lazy(() => import('./components/Contact.jsx'));
+const StartProject = lazy(() => import('./components/StartProject.jsx'));
 
 // --- Contexts ---
 export const ThemeContext = createContext();
@@ -23,6 +29,9 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
+
+// Tiny invisible loader
+const PageLoader = () => <div className="min-h-screen bg-white dark:bg-black" />;
 
 function App() {
   const location = useLocation();
@@ -73,56 +82,35 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <LanguageContext.Provider value={{ language, toggleLanguage }}>
-        {/* --- PERFORMANCE FIX: Removed the global [&_*] transition --- */}
         <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-700">
           <ScrollToTop />
           <NavBar />
           
           <main className="flex-grow">
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route 
-                  path="/" 
-                  element={
-                    <PageTransition>
-                      <Home />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/services" 
-                  element={
-                    <PageTransition>
-                      <Services />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/about" 
-                  element={
-                    <PageTransition>
-                      <About />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/contact" 
-                  element={
-                    <PageTransition>
-                      <Contact />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/start" 
-                  element={
-                    <PageTransition>
-                      <StartProject />
-                    </PageTransition>
-                  } 
-                />
-              </Routes>
-            </AnimatePresence>
+            {/* Suspense handles the loading of the lazy pages */}
+            <Suspense fallback={<PageLoader />}>
+              <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                  
+                  {/* Home is instant */}
+                  <Route 
+                    path="/" 
+                    element={
+                      <PageTransition>
+                        <Home />
+                      </PageTransition>
+                    } 
+                  />
+
+                  {/* Other pages load on demand */}
+                  <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
+                  <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+                  <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+                  <Route path="/start" element={<PageTransition><StartProject /></PageTransition>} />
+                  
+                </Routes>
+              </AnimatePresence>
+            </Suspense>
           </main>
           
           <Footer />
