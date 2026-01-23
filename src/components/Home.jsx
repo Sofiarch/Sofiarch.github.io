@@ -139,7 +139,9 @@ export default function Home() {
       {/* SERVICES SECTION */}
       <section id="services" className="py-32 px-6 bg-white dark:bg-black relative z-10 transition-colors duration-700">
         <div className="max-w-7xl mx-auto">
-          <FadeIn className="mb-20 text-center md:text-left">
+          
+          {/* --- FIX: Changed md:text-left to md:text-start --- */}
+          <FadeIn className="mb-20 text-center md:text-start">
             <h2 className="font-display text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
               {t.expertise}
             </h2>
