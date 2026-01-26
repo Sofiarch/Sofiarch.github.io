@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeContext, LanguageContext } from '../App';
 import { translations } from '../translations';
+import emailjs from '@emailjs/browser';
 
 // --- Reusable FadeIn ---
 const FadeIn = ({ children, delay = 0, className = "" }) => (
@@ -19,16 +20,40 @@ const FadeIn = ({ children, delay = 0, className = "" }) => (
 export default function StartProject() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
+  
+  // States for form handling
   const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  
+  // Ref to capture form data for EmailJS
+  const formRef = useRef();
 
   // Get translations
   const t = translations[language].start;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    const formSection = document.getElementById('form-section');
-    if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+    setIsSending(true);
+
+    // Pulling IDs from environment variables instead of hardcoding
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+      .then((result) => {
+        setSubmitted(true);
+        // ... rest of your logic
+        const formSection = document.getElementById('form-section');
+        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+      })
+      .catch((error) => {
+        console.error("Failed to send email:", error);
+        alert("Failed to send message. Please try again or contact linex.website@gmail.com directly.");
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   return (
@@ -36,7 +61,7 @@ export default function StartProject() {
       {/* --- HERO SECTION --- */}
       <section className="relative pt-32 pb-20 px-6 min-h-[60vh] overflow-hidden flex flex-col justify-center items-center bg-white dark:bg-black transition-colors duration-700">
         
-        {/* Background Layer: Clean/Static */}
+        {/* Background Layer */}
         <div className="absolute inset-0 z-0 bg-white dark:bg-black" />
 
         {/* Content Layer */}
@@ -70,6 +95,7 @@ export default function StartProject() {
               {!submitted ? (
                 <motion.form 
                   key="form"
+                  ref={formRef} // Ref added here
                   initial={{ opacity: 1 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
@@ -82,7 +108,13 @@ export default function StartProject() {
                     <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">
                       {t.form.name}
                     </label>
-                    <input required type="text" placeholder={t.form.placeholders.name} className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
+                    <input 
+                      name="user_name" // Name attribute for EmailJS
+                      required 
+                      type="text" 
+                      placeholder={t.form.placeholders.name} 
+                      className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+                    />
                   </div>
 
                   {/* Row 2: Email & Phone */}
@@ -91,13 +123,24 @@ export default function StartProject() {
                       <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">
                         {t.form.email}
                       </label>
-                      <input required type="email" placeholder={t.form.placeholders.email} className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
+                      <input 
+                        name="user_email" // Name attribute for EmailJS
+                        required 
+                        type="email" 
+                        placeholder={t.form.placeholders.email} 
+                        className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">
                         {t.form.phone} <span className="text-gray-400 dark:text-gray-600 font-normal">{t.form.optional}</span>
                       </label>
-                      <input type="tel" placeholder="+964 770..." className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
+                      <input 
+                        name="user_phone" // Name attribute for EmailJS
+                        type="tel" 
+                        placeholder="+964 770..." 
+                        className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+                      />
                     </div>
                   </div>
 
@@ -106,7 +149,12 @@ export default function StartProject() {
                     <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">
                       {t.form.company} <span className="text-gray-400 dark:text-gray-600 font-normal">{t.form.optional}</span>
                     </label>
-                    <input type="text" placeholder={t.form.placeholders.company} className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" />
+                    <input 
+                      name="user_company" // Name attribute for EmailJS
+                      type="text" 
+                      placeholder={t.form.placeholders.company} 
+                      className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600" 
+                    />
                   </div>
 
                   {/* Row 4: Details */}
@@ -114,17 +162,24 @@ export default function StartProject() {
                     <label className="text-sm font-medium text-gray-500 dark:text-gray-400 ml-1">
                       {t.form.details}
                     </label>
-                    <textarea required rows="5" placeholder={t.form.placeholders.details} className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"></textarea>
+                    <textarea 
+                      name="message" // Name attribute for EmailJS
+                      required 
+                      rows="5" 
+                      placeholder={t.form.placeholders.details} 
+                      className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"
+                    ></textarea>
                   </div>
 
                   {/* Submit */}
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    disabled={isSending}
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-blue-600/30 dark:hover:shadow-blue-500/30 transition-all"
+                    className="w-full bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-blue-600/30 dark:hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {t.form.submit}
+                    {isSending ? "Sending Inquiry..." : t.form.submit}
                   </motion.button>
                 </motion.form>
               ) : (
