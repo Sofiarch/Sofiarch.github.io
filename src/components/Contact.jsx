@@ -80,7 +80,7 @@ export default function Contact() {
             <div className="space-y-4">
               {/* Email Card */}
               <FadeIn delay={0.2}>
-                <a href="mailto:hello@linex.com" className="flex items-center gap-4 p-6 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl hover:border-blue-500/50 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group shadow-sm dark:shadow-none">
+                <a href="mailto:linex.website@gmail.com" className="flex items-center gap-4 p-6 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl hover:border-blue-500/50 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group shadow-sm dark:shadow-none">
                   <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -88,14 +88,14 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-gray-500 mb-1">{t.emailLabel}</div>
-                    <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">hello@linex.com</div>
+                    <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">linex.website@gmail.com</div>
                   </div>
                 </a>
               </FadeIn>
 
               {/* Phone Card */}
               <FadeIn delay={0.3}>
-                <a href="tel:+9640000000000" className="flex items-center gap-4 p-6 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl hover:border-blue-500/50 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group shadow-sm dark:shadow-none">
+                <a href="tel:+9647744995655" className="flex items-center gap-4 p-6 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl hover:border-blue-500/50 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group shadow-sm dark:shadow-none">
                   <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -103,7 +103,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-gray-500 mb-1">{t.callLabel}</div>
-                    <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">+964 000 000 0000</div>
+                    <div className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">07744995655</div>
                   </div>
                 </a>
               </FadeIn>

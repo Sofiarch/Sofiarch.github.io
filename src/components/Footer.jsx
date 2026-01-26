@@ -51,7 +51,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <span className="block text-gray-900 dark:text-white mb-1 font-medium">{l.phone}</span>
-                  <a href="tel:+9640000000000" className="hover:text-blue-600 dark:hover:text-blue-500 transition-colors">+964 000 000 0000</a>
+                  <a href="tel:+9647744995655" className="hover:text-blue-600 dark:hover:text-blue-500 transition-colors">07744995655</a>
                 </li>
                 <li>
                   <span className="block text-gray-900 dark:text-white mb-1 font-medium">{l.office}</span>
@@ -86,10 +86,9 @@ export default function Footer() {
           <div className="border-t border-gray-200 dark:border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-500">© {new Date().getFullYear()} LineX. {t.rights}</p>
             <div className="flex gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors duration-200">LinkedIn</a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors duration-200">Twitter</a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors duration-200">Instagram</a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors duration-200">GitHub</a>
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors duration-200">Facebook</a>
+              <a href="https://www.instagram.com/_linex.iq?igsh=NDJkdDVwbmh3Y2Np" className="hover:text-black dark:hover:text-white transition-colors duration-200">Instagram</a>
+              
             </div>
           </div>
         </div>
