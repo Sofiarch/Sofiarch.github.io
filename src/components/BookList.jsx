@@ -1,7 +1,10 @@
 import React from 'react';
 import { books } from '../books';
+import { useCart } from '../context/CartContext'; // 1. Import the hook
 
 const BookList = () => {
+  const { addToCart } = useCart(); // 2. Get the addToCart function
+
   return (
     <section className="py-16 bg-night-bg" id="books">
       <div className="container mx-auto px-4">
@@ -13,7 +16,7 @@ const BookList = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {books.map((book) => (
             <div key={book.id} className="group bg-night-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-700 overflow-hidden">
-              {/* Image Area - Darker placeholder bg */}
+              {/* Image Area */}
               <div className="h-72 bg-slate-800 w-full relative p-6 flex justify-center items-center">
                 <img 
                   src={book.image} 
@@ -30,7 +33,12 @@ const BookList = () => {
                 <p className="text-gray-400 text-sm mb-4 font-serif">{book.author}</p>
                 <div className="flex justify-between items-end border-t border-slate-700 pt-4">
                   <span className="text-najaf-teal font-bold text-lg">{book.price} د.ع</span>
-                  <button className="text-najaf-gold hover:text-amber-400 font-bold text-sm flex items-center gap-1 transition">
+                  
+                  {/* 3. Button with onClick Event */}
+                  <button 
+                    onClick={() => addToCart(book)}
+                    className="text-najaf-gold hover:text-amber-400 font-bold text-sm flex items-center gap-1 transition active:scale-95"
+                  >
                     <span>إضافة للسلة</span>
                     <span className="text-lg">+</span>
                   </button>

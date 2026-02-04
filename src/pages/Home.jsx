@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
-import RevealOnScroll from '../components/RevealOnScroll'; // Import the wrapper
+import RevealOnScroll from '../components/RevealOnScroll';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -44,7 +44,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- Section 2: Visual Categories --- */}
+      {/* --- Section 2: Visual Categories (UPDATED TO MATCH BOOKS.JS) --- */}
       <section className="py-20 bg-night-bg">
         <div className="container mx-auto px-4">
           <RevealOnScroll>
@@ -55,6 +55,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
+            {/* Category 1: Religion */}
             <RevealOnScroll delay={0.1}>
               <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
                 <img 
@@ -68,19 +69,21 @@ const Home = () => {
               </Link>
             </RevealOnScroll>
 
+            {/* Category 2: History & Sociology (Was Tech) */}
             <RevealOnScroll delay={0.2}>
               <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
                 <img 
-                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" 
-                  alt="Technology" 
+                  src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80" 
+                  alt="History Books" 
                   className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
                 />
                 <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">العلوم والتكنولوجيا</h3>
+                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">تاريخ واجتماع</h3>
                 </div>
               </Link>
             </RevealOnScroll>
 
+            {/* Category 3: Novels */}
             <RevealOnScroll delay={0.3}>
               <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
                 <img 
@@ -89,7 +92,7 @@ const Home = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
                 />
                 <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">الأدب والروايات</h3>
+                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">الروايات والأدب</h3>
                 </div>
               </Link>
             </RevealOnScroll>
