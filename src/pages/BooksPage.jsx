@@ -4,13 +4,9 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
 
-// --- 1. OPTIMIZED CART CONTROL COMPONENT ---
-// This component listens to the cart individually. 
-// When cart updates, only these buttons re-render, NOT the whole page.
+// --- OPTIMIZED CART CONTROL ---
 const CartControl = ({ book }) => {
   const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
-  
-  // Find quantity for THIS specific book only
   const item = cartItems.find(i => i.id === book.id);
   const quantity = item ? item.quantity : 0;
 
@@ -29,20 +25,13 @@ const CartControl = ({ book }) => {
 
   return (
     <div className="flex items-center bg-slate-800 rounded-full border border-najaf-gold overflow-hidden shadow-lg animate-[fadeIn_0.2s]">
-      {/* Decrement */}
       <button 
         onClick={() => quantity === 1 ? removeFromCart(book.id) : updateQuantity(book.id, -1)}
         className="w-8 h-8 flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:text-red-200 transition font-bold"
       >
         {quantity === 1 ? '✕' : '-'}
       </button>
-      
-      {/* Count */}
-      <span className="w-6 text-center text-white font-bold text-sm select-none">
-        {quantity}
-      </span>
-      
-      {/* Increment */}
+      <span className="w-6 text-center text-white font-bold text-sm select-none">{quantity}</span>
       <button 
         onClick={() => updateQuantity(book.id, 1)}
         className="w-8 h-8 flex items-center justify-center text-najaf-gold hover:bg-najaf-gold/20 hover:text-amber-200 transition font-bold"
@@ -53,8 +42,7 @@ const CartControl = ({ book }) => {
   );
 };
 
-// --- 2. STATIC BOOK COVER (Pure Visuals) ---
-// Wrapped in React.memo so it never re-renders unless visual props change
+// --- BOOK COVER (Updated Text) ---
 const BookCover = React.memo(({ title, author, category }) => {
   const getStyle = () => {
     switch(category) {
@@ -85,7 +73,8 @@ const BookCover = React.memo(({ title, author, category }) => {
           <p className="font-cairo text-gray-300 text-xs md:text-sm font-light">{author}</p>
         </div>
         <div className="flex justify-center items-end opacity-60">
-           <span className="text-[10px] text-najaf-gold font-serif tracking-widest uppercase">Najaf Books</span>
+           {/* UPDATED TEXT HERE */}
+           <span className="text-[10px] text-najaf-gold font-serif tracking-widest uppercase">Al-Rafidain</span>
         </div>
       </div>
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-30 transform -translate-x-full group-hover:translate-x-full ease-in-out"></div>
@@ -93,11 +82,8 @@ const BookCover = React.memo(({ title, author, category }) => {
   );
 });
 
-// --- 3. MAIN PAGE ---
+// --- MAIN PAGE ---
 const BooksPage = () => {
-  // NOTE: We REMOVED 'useCart' from here. 
-  // This prevents the whole page from re-rendering when you click +/-
-  
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("default");
@@ -117,11 +103,11 @@ const BooksPage = () => {
     <div className="min-h-screen bg-night-bg flex flex-col font-cairo text-white">
       <Navbar />
       
-      {/* Header */}
+      {/* Header - UPDATED */}
       <div className="relative py-20 bg-slate-900 overflow-hidden text-center border-b border-slate-800">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(circle, #d97706 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
         <div className="relative z-10 container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_forwards]">فهرس <span className="text-najaf-gold">المكتبة</span></h1>
+          <h1 className="text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_forwards]">فهرس <span className="text-najaf-gold">الرافدين</span></h1>
           <p className="text-gray-400 max-w-lg mx-auto animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">اكتشف مجموعتنا المختارة من الكتب.</p>
         </div>
       </div>
@@ -181,10 +167,7 @@ const BooksPage = () => {
                   
                   <div className="mt-auto flex justify-between items-center border-t border-slate-800 pt-3 gap-2">
                     <span className="text-najaf-teal font-bold text-base md:text-lg whitespace-nowrap">{book.price}</span>
-                    
-                    {/* The Optimized Cart Control */}
                     <CartControl book={book} />
-                    
                   </div>
                 </div>
 

@@ -7,7 +7,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  // Helper to check if link is active
   const isActive = (path) => location.pathname === path ? "text-najaf-gold" : "text-gray-300 hover:text-najaf-gold";
 
   return (
@@ -17,13 +16,13 @@ const Navbar = () => {
         {/* Top Bar */}
         <div className="flex justify-between items-center">
           
-          {/* Logo */}
+          {/* Logo - UPDATED */}
           <Link to="/" className="text-2xl font-bold text-white flex items-center gap-2" onClick={() => setIsOpen(false)}>
             <span>📚</span>
-            <span>مكتبة <span className="text-najaf-gold">النجف</span></span>
+            <span>مكتبة <span className="text-najaf-gold">الرافدين</span></span>
           </Link>
 
-          {/* Desktop Links (Hidden on Mobile) */}
+          {/* Desktop Links */}
           <ul className="hidden md:flex space-x-6 space-x-reverse font-medium items-center">
             <li><Link to="/" className={`${isActive('/')} transition`}>الرئيسية</Link></li>
             <li><Link to="/books" className={`${isActive('/books')} transition`}>تصفح الكتب</Link></li>
@@ -34,7 +33,6 @@ const Navbar = () => {
           {/* Cart & Mobile Toggle */}
           <div className="flex items-center gap-4">
             
-            {/* Cart Button */}
             <Link to="/checkout">
               <button className="bg-najaf-gold text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition font-bold shadow-md flex items-center gap-2 text-sm md:text-base">
                 <span className="hidden md:inline">سلة المشتريات</span>
@@ -47,7 +45,6 @@ const Navbar = () => {
               </button>
             </Link>
 
-            {/* Mobile Hamburger Button */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden text-white focus:outline-none"
@@ -63,7 +60,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu */}
         <div className={`md:hidden overflow-hidden transition-[max-height] duration-500 ease-in-out ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
           <ul className="flex flex-col space-y-4 pt-6 pb-2 border-t border-slate-700 mt-4 text-center">
             <li><Link to="/" onClick={() => setIsOpen(false)} className={`block py-2 ${isActive('/')}`}>الرئيسية</Link></li>

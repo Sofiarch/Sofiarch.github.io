@@ -19,30 +19,43 @@ const CheckoutPage = () => {
       setOrderComplete(true);
       clearCart();
       setIsSubmitting(false);
+      window.scrollTo(0, 0); // Scroll to top for the success message
     }, 1500);
   };
 
+  // --- SUCCESS STATE (Full Page) ---
   if (orderComplete) {
     return (
       <div className="min-h-screen bg-night-bg flex flex-col font-cairo text-white">
         <Navbar />
-        <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
-          <div className="text-6xl mb-6">🎉</div>
-          <h1 className="text-4xl font-bold mb-4 text-najaf-gold">تم استلام طلبك بنجاح!</h1>
-          <p className="text-gray-400 mb-8 max-w-md">
-            شكراً لك {formData.name}. سنتواصل معك قريباً على الرقم {formData.phone} لتأكيد التوصيل.
+        <div className="flex-grow flex flex-col items-center justify-center text-center p-4 animate-[fadeIn_0.5s_ease-out]">
+          <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
+            <span className="text-6xl">🎉</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-najaf-gold">تم استلام طلبك بنجاح!</h1>
+          <p className="text-gray-400 mb-8 max-w-md text-lg leading-relaxed">
+            شكراً لك <span className="text-white font-bold">{formData.name}</span>.<br/>
+            سنتواصل معك قريباً على الرقم <span className="dir-ltr inline-block">{formData.phone}</span> لتأكيد موعد التوصيل.
           </p>
-          <Link to="/books">
-            <button className="bg-slate-800 border border-slate-600 px-8 py-3 rounded-lg hover:bg-slate-700 transition text-white">
-              العودة للتسوق
-            </button>
-          </Link>
+          <div className="flex gap-4">
+            <Link to="/books">
+              <button className="bg-najaf-gold text-white px-8 py-3 rounded-lg hover:bg-amber-700 transition font-bold shadow-lg shadow-amber-900/20">
+                العودة للتسوق
+              </button>
+            </Link>
+            <Link to="/">
+              <button className="bg-transparent border border-slate-600 text-white px-8 py-3 rounded-lg hover:bg-slate-800 transition">
+                الرئيسية
+              </button>
+            </Link>
+          </div>
         </div>
         <Footer />
       </div>
     );
   }
 
+  // --- CHECKOUT FORM STATE ---
   return (
     <div className="min-h-screen bg-night-bg flex flex-col font-cairo text-white">
       <Navbar />
@@ -68,7 +81,7 @@ const CheckoutPage = () => {
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                   {cartItems.map(item => (
                     <div key={item.id} className="flex gap-4 bg-slate-800/50 p-4 rounded-lg border border-slate-700 items-center">
-                       {/* Simplified Cover CSS for Thumbnail */}
+                       {/* Simplified Thumbnail */}
                       <div className="w-16 h-20 bg-gradient-to-br from-slate-700 to-slate-800 border border-slate-600 rounded flex items-center justify-center shrink-0">
                          <span className="text-2xl">📖</span>
                       </div>

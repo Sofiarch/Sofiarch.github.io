@@ -44,64 +44,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- Section 2: Visual Categories (UPDATED TO MATCH BOOKS.JS) --- */}
-      <section className="py-20 bg-night-bg">
-        <div className="container mx-auto px-4">
-          <RevealOnScroll>
-            <h2 className="text-3xl font-bold text-white text-center mb-12">
-              تصفح حسب <span className="text-najaf-gold">الأقسام</span>
-            </h2>
-          </RevealOnScroll>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Category 1: Religion */}
-            <RevealOnScroll delay={0.1}>
-              <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
-                <img 
-                  src="https://images.unsplash.com/photo-1590076215667-87ebdd499690?auto=format&fit=crop&w=800&q=80" 
-                  alt="Religious Books" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
-                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">الكتب الدينية</h3>
-                </div>
-              </Link>
-            </RevealOnScroll>
-
-            {/* Category 2: History & Sociology (Was Tech) */}
-            <RevealOnScroll delay={0.2}>
-              <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
-                <img 
-                  src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80" 
-                  alt="History Books" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
-                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">تاريخ واجتماع</h3>
-                </div>
-              </Link>
-            </RevealOnScroll>
-
-            {/* Category 3: Novels */}
-            <RevealOnScroll delay={0.3}>
-              <Link to="/books" className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
-                <img 
-                  src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80" 
-                  alt="Literature" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
-                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white border-b-2 border-najaf-gold pb-1">الروايات والأدب</h3>
-                </div>
-              </Link>
-            </RevealOnScroll>
-
-          </div>
-        </div>
-      </section>
-
-      {/* --- Section 3: Quote Section --- */}
+      {/* --- Section 2: Quote Section --- */}
       <section className="py-24 relative bg-slate-900 border-y border-slate-800">
         <div className="absolute inset-0">
           <img 
@@ -129,11 +72,14 @@ const Home = () => {
         <RevealOnScroll>
           <h2 className="text-3xl text-white font-bold mb-6">هل تبحث عن كتاب معين؟</h2>
           <p className="text-gray-400 mb-8 max-w-md mx-auto">تصفح مجموعتنا الكاملة أو تواصل معنا.</p>
-          <Link to="/books">
-            <button className="bg-najaf-gold text-white px-10 py-4 rounded-lg text-lg font-bold hover:bg-amber-700 transition shadow-lg shadow-amber-900/20 transform hover:scale-105">
-              تصفح المكتبة الآن
-            </button>
-          </Link>
+          <div className="flex justify-center gap-4">
+            <Link to="/books">
+              <button className="bg-najaf-gold text-white px-10 py-4 rounded-lg text-lg font-bold hover:bg-amber-700 transition shadow-lg shadow-amber-900/20 transform hover:scale-105">
+                تصفح المكتبة الآن
+              </button>
+            </Link>
+            {/* Removed the Contact Us button from here */}
+          </div>
         </RevealOnScroll>
       </section>
 
